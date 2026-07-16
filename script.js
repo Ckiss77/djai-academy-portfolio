@@ -13,6 +13,37 @@ const revealObserver = new IntersectionObserver(
 
 revealItems.forEach((item) => revealObserver.observe(item));
 
+const siteHeader = document.querySelector(".site-header");
+const navToggle = document.querySelector(".nav-toggle");
+const mainNavigation = document.getElementById("mainNavigation");
+
+function setNavigationOpen(isOpen) {
+  if (!siteHeader || !navToggle) return;
+
+  siteHeader.classList.toggle("menu-open", isOpen);
+  navToggle.setAttribute("aria-expanded", String(isOpen));
+  navToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+}
+
+if (siteHeader && navToggle && mainNavigation) {
+  navToggle.addEventListener("click", () => {
+    setNavigationOpen(!siteHeader.classList.contains("menu-open"));
+  });
+
+  mainNavigation.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => setNavigationOpen(false));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setNavigationOpen(false);
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!siteHeader.classList.contains("menu-open") || siteHeader.contains(event.target)) return;
+    setNavigationOpen(false);
+  });
+}
+
 const tabs = document.querySelectorAll(".tab-button");
 const panels = document.querySelectorAll(".portfolio-panel");
 const cinematicPasscodeDialog = document.getElementById("cinematicPasscodeDialog");
