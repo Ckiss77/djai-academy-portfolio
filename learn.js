@@ -11,6 +11,7 @@ const ui = {
   activeLessonNumber: $("#activeLessonNumber"), activeLessonTitle: $("#activeLessonTitle"),
   activeLessonDescription: $("#activeLessonDescription"), portalToast: $("#portalToast"),
   courseCount: $("#courseCount"), lessonCount: $("#lessonCount"), documentCount: $("#documentCount"),
+  adminLink: $("#adminLink"), courseControls: $(".course-controls"),
 };
 
 let portalClient;
@@ -80,6 +81,8 @@ function renderCourses() {
     const matchesText = `${course.title} ${course.description || ""}`.toLowerCase().includes(query);
     return matchesText && (!categoryId || course.category_id === categoryId);
   });
+
+  ui.courseControls.classList.toggle("is-hidden", !portalData.courses.length);
 
   if (!portalData.courses.length) {
     ui.courseGrid.innerHTML = `
@@ -189,6 +192,7 @@ async function loadStudentData() {
   portalData = payload;
   const displayName = payload.profile.full_name || payload.profile.email?.split("@")[0] || "ผู้เรียน";
   ui.studentSummary.textContent = `${displayName} · ${payload.profile.email}`;
+  ui.adminLink.classList.toggle("is-hidden", payload.profile.role !== "admin");
   updateSummary();
   categoryOptions();
   renderCourses();
