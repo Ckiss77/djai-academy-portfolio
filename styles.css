@@ -773,6 +773,11 @@ h1 {
   font-weight: 700;
 }
 
+.speaker-cv-btn {
+  margin-top: 22px;
+  width: fit-content;
+}
+
 .credential-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
