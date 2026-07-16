@@ -9,90 +9,123 @@
     <link rel="icon" type="image/png" href="assets/djai-logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="elearning.css" />
   </head>
   <body class="portal-body">
     <canvas class="signal-canvas" id="signalCanvas" aria-hidden="true"></canvas>
-    <div class="ambient ambient-a" aria-hidden="true"></div>
-    <div class="ambient ambient-b" aria-hidden="true"></div>
-    <div class="scanline" aria-hidden="true"></div>
+    <div class="portal-backdrop" aria-hidden="true"></div>
 
-    <header class="site-header">
-      <a class="brand" href="index.html" aria-label="DJAI Academy home">
-        <span class="brand-mark"><img src="assets/djai-mark.jpg" alt="" /></span>
-        <span class="brand-copy">
-          <strong>DJAI Academy</strong>
-          <span>Learning Portal</span>
-        </span>
+    <header class="portal-header">
+      <a class="portal-brand" href="index.html" aria-label="DJAI Academy home">
+        <img src="assets/djai-mark.jpg" alt="" />
+        <span><strong>DJAI Academy</strong><small>Learning Portal</small></span>
       </a>
-      <nav class="nav" aria-label="Portal navigation">
-        <a href="index.html">Portfolio</a>
-        <a href="admin.html">Admin</a>
+      <nav class="portal-nav" aria-label="Portal navigation">
+        <a href="index.html"><i data-lucide="briefcase-business"></i><span>Portfolio</span></a>
+        <a href="admin.html" id="adminLink"><i data-lucide="shield-check"></i><span>Admin</span></a>
+        <button class="portal-icon-button is-hidden" id="logoutButton" type="button" title="ออกจากระบบ">
+          <i data-lucide="log-out"></i><span>ออกจากระบบ</span>
+        </button>
       </nav>
     </header>
 
     <main class="portal-main">
-      <section class="portal-hero" id="loginView">
-        <div class="portal-panel">
-          <p class="eyebrow">DJAI E-Learning</p>
-          <h1>Secure learning for AI transformation.</h1>
-          <p>
-            เข้าสู่ระบบเพื่อดูคอร์สออนไลน์ วิดีโอ YouTube แบบ unlisted และเอกสารประกอบการเรียน
-            ตามสิทธิ์ที่ได้รับจาก DJAI Academy
-          </p>
-        </div>
-        <form class="portal-form" id="loginForm">
-          <h2>Student Login</h2>
-          <p class="portal-status" id="loginStatus"></p>
-          <div class="form-grid">
-            <label class="field">
-              <span>Email</span>
-              <input name="email" type="email" autocomplete="email" required />
-            </label>
-            <label class="field">
-              <span>Password</span>
-              <input name="password" type="password" autocomplete="current-password" required />
-            </label>
-            <button class="btn btn-primary" type="submit">Login</button>
+      <section class="login-shell" id="loginView">
+        <div class="login-intro">
+          <p class="portal-kicker">DJAI E-Learning</p>
+          <h1>เรียนรู้ทักษะดิจิทัล<br />ได้จากทุกที่</h1>
+          <p>เข้าถึงวิดีโอ บทเรียน และเอกสารประกอบตามสิทธิ์ที่ได้รับจาก DJAI Academy</p>
+          <div class="login-benefits">
+            <span><i data-lucide="play-circle"></i> เรียนตามลำดับได้ง่าย</span>
+            <span><i data-lucide="file-down"></i> เอกสารรวมอยู่ในคอร์ส</span>
+            <span><i data-lucide="lock-keyhole"></i> ปลอดภัยสำหรับสมาชิก</span>
           </div>
+        </div>
+        <form class="login-card" id="loginForm">
+          <div class="login-card-heading">
+            <span class="icon-tile"><i data-lucide="graduation-cap"></i></span>
+            <div><p>ยินดีต้อนรับ</p><h2>เข้าสู่ระบบผู้เรียน</h2></div>
+          </div>
+          <p class="portal-status" id="loginStatus" role="status"></p>
+          <label class="field">
+            <span>อีเมล</span>
+            <div class="input-with-icon"><i data-lucide="mail"></i><input name="email" type="email" autocomplete="email" placeholder="name@example.com" required /></div>
+          </label>
+          <label class="field">
+            <span>รหัสผ่าน</span>
+            <div class="input-with-icon"><i data-lucide="lock-keyhole"></i><input name="password" type="password" autocomplete="current-password" placeholder="กรอกรหัสผ่าน" required /></div>
+          </label>
+          <button class="btn btn-primary portal-submit" type="submit"><span>เข้าสู่ระบบ</span><i data-lucide="arrow-right"></i></button>
+          <p class="login-help">หากเข้าสู่ระบบไม่ได้ กรุณาติดต่อผู้ดูแล DJAI Academy</p>
         </form>
       </section>
 
       <section class="is-hidden" id="appView">
-        <div class="portal-toolbar">
+        <div class="portal-welcome">
           <div>
-            <p class="eyebrow">My Courses</p>
-            <h1 class="sr-only">DJAI Learning Portal</h1>
+            <p class="portal-kicker">My Learning</p>
+            <h1 id="welcomeTitle">คอร์สของฉัน</h1>
             <p class="portal-user" id="studentSummary"></p>
           </div>
-          <button class="btn btn-secondary" id="logoutButton" type="button">Logout</button>
+          <div class="learning-summary" aria-label="Learning summary">
+            <div><strong id="courseCount">0</strong><span>คอร์ส</span></div>
+            <div><strong id="lessonCount">0</strong><span>บทเรียน</span></div>
+            <div><strong id="documentCount">0</strong><span>เอกสาร</span></div>
+          </div>
         </div>
 
-        <div class="course-grid" id="courseGrid"></div>
-        <div class="lesson-layout is-hidden" id="lessonLayout">
-          <article class="lesson-player">
-            <div class="video-frame" id="videoFrame"></div>
-            <div class="lesson-meta">
-              <p class="eyebrow" id="activeCourseCategory"></p>
+        <section id="libraryView">
+          <div class="library-toolbar">
+            <div>
+              <h2>คลังคอร์ส</h2>
+              <p>เลือกคอร์สเพื่อเริ่มเรียนหรือเรียนต่อ</p>
+            </div>
+            <div class="course-controls">
+              <label class="search-field"><i data-lucide="search"></i><input id="courseSearch" type="search" placeholder="ค้นหาคอร์ส" /></label>
+              <select id="categoryFilter" aria-label="กรองตามหมวดหมู่"><option value="">ทุกหมวดหมู่</option></select>
+            </div>
+          </div>
+          <div class="course-grid" id="courseGrid" aria-live="polite"></div>
+        </section>
+
+        <section class="lesson-workspace is-hidden" id="lessonLayout">
+          <button class="back-button" id="backToLibrary" type="button"><i data-lucide="arrow-left"></i> กลับไปคลังคอร์ส</button>
+          <div class="course-heading">
+            <div>
+              <p class="portal-kicker" id="activeCourseCategory"></p>
               <h2 id="activeCourseTitle"></h2>
               <p id="activeCourseDescription"></p>
             </div>
-          </article>
-          <aside class="portal-panel">
-            <h2>Lessons</h2>
-            <div class="lesson-list" id="lessonList"></div>
-            <h2>Documents</h2>
-            <div class="document-list" id="documentList"></div>
-          </aside>
-        </div>
+            <span class="course-progress-label" id="activeCourseMeta"></span>
+          </div>
+          <div class="lesson-layout">
+            <article class="lesson-player">
+              <div class="video-frame" id="videoFrame">
+                <div class="video-placeholder"><i data-lucide="play-circle"></i><span>เลือกบทเรียนเพื่อเริ่มดูวิดีโอ</span></div>
+              </div>
+              <div class="active-lesson-copy">
+                <span id="activeLessonNumber">บทเรียน</span>
+                <h3 id="activeLessonTitle">เลือกบทเรียนจากรายการ</h3>
+                <p id="activeLessonDescription"></p>
+              </div>
+            </article>
+            <aside class="lesson-sidebar">
+              <div class="sidebar-tabs" role="tablist">
+                <button class="sidebar-tab active" data-lesson-tab="lessons" type="button"><i data-lucide="list-video"></i> บทเรียน</button>
+                <button class="sidebar-tab" data-lesson-tab="documents" type="button"><i data-lucide="files"></i> เอกสาร</button>
+              </div>
+              <div class="sidebar-panel active" id="lessonsSidebarPanel"><div class="lesson-list" id="lessonList"></div></div>
+              <div class="sidebar-panel" id="documentsSidebarPanel"><div class="document-list" id="documentList"></div></div>
+            </aside>
+          </div>
+        </section>
       </section>
     </main>
 
+    <div class="portal-toast" id="portalToast" role="status" aria-live="polite"></div>
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="elearning-config.js"></script>
     <script src="learn.js"></script>

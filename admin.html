@@ -9,154 +9,129 @@
     <link rel="icon" type="image/png" href="assets/djai-logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="elearning.css" />
   </head>
-  <body class="portal-body">
+  <body class="portal-body admin-body">
     <canvas class="signal-canvas" id="signalCanvas" aria-hidden="true"></canvas>
-    <div class="ambient ambient-a" aria-hidden="true"></div>
-    <div class="ambient ambient-b" aria-hidden="true"></div>
-    <div class="scanline" aria-hidden="true"></div>
+    <div class="portal-backdrop" aria-hidden="true"></div>
 
-    <header class="site-header">
-      <a class="brand" href="index.html" aria-label="DJAI Academy home">
-        <span class="brand-mark"><img src="assets/djai-mark.jpg" alt="" /></span>
-        <span class="brand-copy">
-          <strong>DJAI Academy</strong>
-          <span>Admin Portal</span>
-        </span>
+    <header class="portal-header">
+      <a class="portal-brand" href="index.html" aria-label="DJAI Academy home">
+        <img src="assets/djai-mark.jpg" alt="" />
+        <span><strong>DJAI Academy</strong><small>LMS Admin</small></span>
       </a>
-      <nav class="nav" aria-label="Admin navigation">
-        <a href="learn.html">Learning</a>
-        <a href="index.html">Portfolio</a>
+      <nav class="portal-nav" aria-label="Admin navigation">
+        <a href="learn.html"><i data-lucide="graduation-cap"></i><span>Learning</span></a>
+        <a href="index.html"><i data-lucide="briefcase-business"></i><span>Portfolio</span></a>
+        <button class="portal-icon-button is-hidden" id="adminLogoutButton" type="button"><i data-lucide="log-out"></i><span>ออกจากระบบ</span></button>
       </nav>
     </header>
 
     <main class="portal-main">
-      <section class="portal-hero" id="adminLoginView">
-        <div class="portal-panel">
-          <p class="eyebrow">Admin Control</p>
-          <h1>Manage online courses and learner access.</h1>
-          <p>
-            จัดหมวดหมู่คอร์ส วิดีโอ YouTube unlisted เอกสารประกอบการเรียน และสิทธิ์ผู้เรียน
-            จากหน้าเดียว
-          </p>
-        </div>
-        <form class="portal-form" id="adminLoginForm">
-          <h2>Admin Login</h2>
-          <p class="portal-status" id="adminLoginStatus"></p>
-          <div class="form-grid">
-            <label class="field">
-              <span>Email</span>
-              <input name="email" type="email" autocomplete="email" required />
-            </label>
-            <label class="field">
-              <span>Password</span>
-              <input name="password" type="password" autocomplete="current-password" required />
-            </label>
-            <button class="btn btn-primary" type="submit">Login</button>
+      <section class="login-shell" id="adminLoginView">
+        <div class="login-intro">
+          <p class="portal-kicker">LMS Administration</p>
+          <h1>จัดการระบบเรียนรู้<br />ได้ในที่เดียว</h1>
+          <p>สร้างคอร์ส เพิ่มเนื้อหา และกำหนดสิทธิ์ผู้เรียนด้วยขั้นตอนที่ชัดเจน</p>
+          <div class="login-benefits">
+            <span><i data-lucide="layout-dashboard"></i> ภาพรวมระบบ</span>
+            <span><i data-lucide="library-big"></i> จัดการคอร์สและเนื้อหา</span>
+            <span><i data-lucide="users"></i> ควบคุมสิทธิ์ผู้เรียน</span>
           </div>
+        </div>
+        <form class="login-card" id="adminLoginForm">
+          <div class="login-card-heading"><span class="icon-tile"><i data-lucide="shield-check"></i></span><div><p>สำหรับผู้ดูแล</p><h2>เข้าสู่ระบบ Admin</h2></div></div>
+          <p class="portal-status" id="adminLoginStatus" role="status"></p>
+          <label class="field"><span>อีเมล</span><div class="input-with-icon"><i data-lucide="mail"></i><input name="email" type="email" autocomplete="email" required /></div></label>
+          <label class="field"><span>รหัสผ่าน</span><div class="input-with-icon"><i data-lucide="lock-keyhole"></i><input name="password" type="password" autocomplete="current-password" required /></div></label>
+          <button class="btn btn-primary portal-submit" type="submit"><span>เข้าสู่ระบบ</span><i data-lucide="arrow-right"></i></button>
         </form>
       </section>
 
-      <section class="is-hidden" id="adminAppView">
-        <div class="admin-toolbar">
-          <div>
-            <p class="eyebrow">DJAI Academy LMS</p>
-            <h1 class="sr-only">Admin Portal</h1>
-            <p class="portal-user" id="adminSummary"></p>
-            <p class="portal-status" id="adminStatus"></p>
+      <section class="admin-shell is-hidden" id="adminAppView">
+        <aside class="admin-sidebar">
+          <div class="admin-account"><span class="account-avatar" id="adminAvatar">A</span><div><strong>ผู้ดูแลระบบ</strong><small id="adminSummary"></small></div></div>
+          <nav class="admin-menu" aria-label="Admin sections">
+            <button class="admin-tab active" data-admin-tab="overview" type="button"><i data-lucide="layout-dashboard"></i><span>ภาพรวม</span></button>
+            <button class="admin-tab" data-admin-tab="courses" type="button"><i data-lucide="library-big"></i><span>คอร์ส</span></button>
+            <button class="admin-tab" data-admin-tab="content" type="button"><i data-lucide="list-video"></i><span>เนื้อหา</span></button>
+            <button class="admin-tab" data-admin-tab="users" type="button"><i data-lucide="users"></i><span>ผู้เรียน</span></button>
+          </nav>
+          <div class="admin-guide"><i data-lucide="circle-help"></i><p><strong>ลำดับแนะนำ</strong>สร้างหมวดหมู่และคอร์ส จากนั้นเพิ่มวิดีโอ/เอกสาร แล้วจึงกำหนดสิทธิ์ให้ผู้เรียน</p></div>
+        </aside>
+
+        <div class="admin-content">
+          <div class="admin-page-header">
+            <div><p class="portal-kicker">DJAI Academy LMS</p><h1 id="adminPageTitle">ภาพรวมระบบ</h1><p id="adminPageDescription">ตรวจสอบคอร์ส เนื้อหา และผู้ใช้งานทั้งหมด</p></div>
+            <p class="portal-status" id="adminStatus" role="status"></p>
           </div>
-          <button class="btn btn-secondary" id="adminLogoutButton" type="button">Logout</button>
+
+          <section class="admin-panel active" id="overviewPanel">
+            <div class="metric-grid">
+              <article><span><i data-lucide="library-big"></i></span><div><strong id="metricCourses">0</strong><small>คอร์สทั้งหมด</small></div></article>
+              <article><span><i data-lucide="play-square"></i></span><div><strong id="metricVideos">0</strong><small>วิดีโอ</small></div></article>
+              <article><span><i data-lucide="files"></i></span><div><strong id="metricDocuments">0</strong><small>เอกสาร</small></div></article>
+              <article><span><i data-lucide="users"></i></span><div><strong id="metricUsers">0</strong><small>ผู้ใช้งาน</small></div></article>
+            </div>
+            <div class="admin-overview-grid">
+              <article class="workspace-card"><div class="workspace-heading"><div><h2>เริ่มต้นจัดการ LMS</h2><p>ทำตาม 3 ขั้นตอนนี้เพื่อเปิดคอร์สให้ผู้เรียน</p></div></div><div class="setup-steps">
+                <button data-go-tab="courses" type="button"><span>1</span><div><strong>สร้างคอร์ส</strong><small>กำหนดชื่อ หมวดหมู่ และสถานะ</small></div><i data-lucide="chevron-right"></i></button>
+                <button data-go-tab="content" type="button"><span>2</span><div><strong>เพิ่มเนื้อหา</strong><small>วิดีโอ YouTube และเอกสาร</small></div><i data-lucide="chevron-right"></i></button>
+                <button data-go-tab="users" type="button"><span>3</span><div><strong>ให้สิทธิ์ผู้เรียน</strong><small>เลือกคอร์สและช่วงเวลาการใช้งาน</small></div><i data-lucide="chevron-right"></i></button>
+              </div></article>
+              <article class="workspace-card"><div class="workspace-heading"><div><h2>คอร์สล่าสุด</h2><p>สถานะคอร์สในระบบ</p></div><button class="text-button" data-go-tab="courses" type="button">ดูทั้งหมด</button></div><div class="compact-list" id="recentCourseList"></div></article>
+            </div>
+          </section>
+
+          <section class="admin-panel" id="coursesPanel">
+            <div class="admin-section-toolbar"><div><h2>คอร์สและหมวดหมู่</h2><p>สร้างโครงสร้างก่อนเพิ่มวิดีโอและเอกสาร</p></div><button class="btn btn-primary" data-open-form="courseFormCard" type="button"><i data-lucide="plus"></i> สร้างคอร์ส</button></div>
+            <div class="management-grid">
+              <div class="workspace-card"><div class="workspace-heading"><div><h3>รายการคอร์ส</h3><p id="courseListSummary"></p></div><label class="mini-search"><i data-lucide="search"></i><input id="adminCourseSearch" type="search" placeholder="ค้นหา" /></label></div><div class="admin-list" id="courseAdminList"></div></div>
+              <div class="editor-stack">
+                <details class="workspace-card editor-card" id="courseFormCard" open><summary><span><i data-lucide="book-plus"></i><strong>ข้อมูลคอร์ส</strong></span><i data-lucide="chevron-down"></i></summary>
+                  <form class="portal-form compact-form" id="courseForm">
+                    <input name="id" type="hidden" />
+                    <label class="field"><span>ชื่อคอร์ส *</span><input name="title" required /></label>
+                    <div class="form-grid two"><label class="field"><span>หมวดหมู่</span><select name="category_id"></select></label><label class="field"><span>สถานะ</span><select name="is_published"><option value="true">เผยแพร่</option><option value="false">ฉบับร่าง</option></select></label></div>
+                    <label class="field"><span>คำอธิบาย</span><textarea name="description"></textarea></label>
+                    <label class="field"><span>รูปปก (URL)</span><input name="thumbnail_url" type="url" placeholder="https://..." /></label>
+                    <div class="form-grid two"><label class="field"><span>Slug</span><input name="slug" placeholder="สร้างอัตโนมัติ" /></label><label class="field"><span>ลำดับ</span><input name="sort_order" type="number" value="0" /></label></div>
+                    <div class="form-actions"><button class="btn btn-primary" type="submit"><i data-lucide="save"></i> บันทึกคอร์ส</button><button class="btn btn-secondary" data-clear-form="courseForm" type="button">ล้างฟอร์ม</button></div>
+                  </form>
+                </details>
+                <details class="workspace-card editor-card" id="categoryFormCard"><summary><span><i data-lucide="folders"></i><strong>จัดการหมวดหมู่</strong></span><i data-lucide="chevron-down"></i></summary>
+                  <form class="portal-form compact-form" id="categoryForm"><input name="id" type="hidden" /><label class="field"><span>ชื่อหมวดหมู่ *</span><input name="name" required /></label><label class="field"><span>คำอธิบาย</span><textarea name="description"></textarea></label><label class="field"><span>Slug</span><input name="slug" placeholder="สร้างอัตโนมัติ" /></label><button class="btn btn-primary" type="submit"><i data-lucide="save"></i> บันทึกหมวดหมู่</button></form><div class="category-chips" id="categoryAdminList"></div>
+                </details>
+              </div>
+            </div>
+          </section>
+
+          <section class="admin-panel" id="contentPanel">
+            <div class="admin-section-toolbar"><div><h2>เนื้อหาคอร์ส</h2><p>เพิ่มวิดีโอ YouTube แบบ Unlisted และเอกสารประกอบ</p></div></div>
+            <div class="content-form-grid">
+              <form class="workspace-card portal-form" id="videoForm"><div class="form-title"><span class="icon-tile"><i data-lucide="youtube"></i></span><div><h3>เพิ่มวิดีโอ</h3><p>YouTube URL หรือ Shorts</p></div></div><input name="id" type="hidden" /><label class="field"><span>คอร์ส *</span><select name="course_id" required></select></label><label class="field"><span>ชื่อบทเรียน *</span><input name="title" required /></label><label class="field"><span>YouTube URL *</span><input name="youtube_url" type="url" required /></label><label class="field"><span>คำอธิบาย</span><textarea name="description"></textarea></label><label class="field narrow-field"><span>ลำดับ</span><input name="sort_order" type="number" value="0" /></label><button class="btn btn-primary" type="submit"><i data-lucide="plus"></i> เพิ่มวิดีโอ</button></form>
+              <form class="workspace-card portal-form" id="documentForm"><div class="form-title"><span class="icon-tile"><i data-lucide="file-up"></i></span><div><h3>อัปโหลดเอกสาร</h3><p>PDF, PowerPoint หรือไฟล์ประกอบ</p></div></div><label class="field"><span>คอร์ส *</span><select name="course_id" required></select></label><label class="field"><span>ชื่อเอกสาร *</span><input name="title" required /></label><label class="field file-drop"><input name="file" type="file" required /><i data-lucide="upload-cloud"></i><strong>เลือกไฟล์จากเครื่อง</strong><small id="selectedFileName">ยังไม่ได้เลือกไฟล์</small></label><label class="field narrow-field"><span>ลำดับ</span><input name="sort_order" type="number" value="0" /></label><button class="btn btn-primary" type="submit"><i data-lucide="upload"></i> อัปโหลดเอกสาร</button></form>
+            </div>
+            <div class="workspace-card"><div class="workspace-heading"><div><h3>รายการเนื้อหา</h3><p>วิดีโอและเอกสารแยกตามคอร์ส</p></div><select id="contentCourseFilter" aria-label="เลือกคอร์ส"></select></div><div class="content-inventory" id="contentAdminList"></div></div>
+          </section>
+
+          <section class="admin-panel" id="usersPanel">
+            <div class="admin-section-toolbar"><div><h2>ผู้เรียนและสิทธิ์เข้าใช้</h2><p>จัดการสถานะ ช่วงเวลา และคอร์สที่เข้าเรียนได้</p></div><button class="btn btn-primary" data-open-form="userFormCard" type="button"><i data-lucide="user-plus"></i> เพิ่มผู้ใช้</button></div>
+            <div class="management-grid users-grid">
+              <div class="workspace-card"><div class="workspace-heading"><div><h3>ผู้ใช้งานทั้งหมด</h3><p id="userListSummary"></p></div><label class="mini-search"><i data-lucide="search"></i><input id="adminUserSearch" type="search" placeholder="ค้นหาชื่อหรืออีเมล" /></label></div><div class="admin-list" id="userAdminList"></div></div>
+              <details class="workspace-card editor-card" id="userFormCard" open><summary><span><i data-lucide="user-cog"></i><strong>ข้อมูลและสิทธิ์ผู้ใช้</strong></span><i data-lucide="chevron-down"></i></summary>
+                <form class="portal-form compact-form" id="userForm"><input name="id" type="hidden" /><label class="field"><span>อีเมล *</span><input name="email" type="email" required /></label><label class="field"><span>ชื่อ-นามสกุล</span><input name="full_name" /></label><div class="form-grid two"><label class="field"><span>บทบาท</span><select name="role"><option value="student">Student</option><option value="admin">Admin</option></select></label><label class="field"><span>สถานะ</span><select name="is_active"><option value="true">ใช้งาน</option><option value="false">ระงับ</option></select></label></div><label class="field"><span>รหัสผ่าน</span><input name="password" type="password" placeholder="จำเป็นสำหรับผู้ใช้ใหม่" /></label><div class="form-grid two"><label class="field"><span>เริ่มใช้งาน</span><input name="access_start" type="datetime-local" /></label><label class="field"><span>สิ้นสุด</span><input name="access_end" type="datetime-local" /></label></div><div class="field"><span>คอร์สที่เข้าเรียนได้</span><div class="course-checkboxes" id="courseAccessList"></div></div><div class="form-actions"><button class="btn btn-primary" type="submit"><i data-lucide="save"></i> บันทึกผู้ใช้</button><button class="btn btn-secondary" id="clearUserForm" type="button">ล้างฟอร์ม</button></div></form>
+              </details>
+            </div>
+          </section>
         </div>
-
-        <div class="admin-tabs" role="tablist">
-          <button class="admin-tab active" data-admin-tab="courses" type="button">Courses</button>
-          <button class="admin-tab" data-admin-tab="users" type="button">Users</button>
-        </div>
-
-        <section class="admin-panel active" id="coursesPanel">
-          <h2>Course Structure</h2>
-          <form class="portal-form" id="categoryForm">
-            <input name="id" type="hidden" />
-            <div class="form-grid two">
-              <label class="field"><span>Category name</span><input name="name" required /></label>
-              <label class="field"><span>Slug</span><input name="slug" required /></label>
-            </div>
-            <label class="field"><span>Description</span><textarea name="description"></textarea></label>
-            <button class="btn btn-primary" type="submit">Save Category</button>
-          </form>
-
-          <form class="portal-form" id="courseForm">
-            <input name="id" type="hidden" />
-            <div class="form-grid two">
-              <label class="field"><span>Course title</span><input name="title" required /></label>
-              <label class="field"><span>Slug</span><input name="slug" required /></label>
-              <label class="field"><span>Category</span><select name="category_id"></select></label>
-              <label class="field"><span>Sort order</span><input name="sort_order" type="number" value="0" /></label>
-            </div>
-            <label class="field"><span>Thumbnail URL</span><input name="thumbnail_url" /></label>
-            <label class="field"><span>Description</span><textarea name="description"></textarea></label>
-            <label class="field"><span>Status</span><select name="is_published"><option value="true">Published</option><option value="false">Draft</option></select></label>
-            <button class="btn btn-primary" type="submit">Save Course</button>
-          </form>
-
-          <form class="portal-form" id="videoForm">
-            <input name="id" type="hidden" />
-            <div class="form-grid two">
-              <label class="field"><span>Course</span><select name="course_id" required></select></label>
-              <label class="field"><span>Video title</span><input name="title" required /></label>
-              <label class="field"><span>YouTube URL</span><input name="youtube_url" required /></label>
-              <label class="field"><span>Sort order</span><input name="sort_order" type="number" value="0" /></label>
-            </div>
-            <label class="field"><span>Description</span><textarea name="description"></textarea></label>
-            <button class="btn btn-primary" type="submit">Save Video</button>
-          </form>
-
-          <form class="portal-form" id="documentForm">
-            <div class="form-grid two">
-              <label class="field"><span>Course</span><select name="course_id" required></select></label>
-              <label class="field"><span>Document title</span><input name="title" required /></label>
-              <label class="field"><span>Sort order</span><input name="sort_order" type="number" value="0" /></label>
-              <label class="field"><span>File</span><input name="file" type="file" required /></label>
-            </div>
-            <button class="btn btn-primary" type="submit">Upload Document</button>
-          </form>
-
-          <div class="admin-list" id="courseAdminList"></div>
-        </section>
-
-        <section class="admin-panel" id="usersPanel">
-          <h2>User Management</h2>
-          <form class="portal-form" id="userForm">
-            <input name="id" type="hidden" />
-            <div class="form-grid two">
-              <label class="field"><span>Email</span><input name="email" type="email" required /></label>
-              <label class="field"><span>Full name</span><input name="full_name" /></label>
-              <label class="field"><span>Password</span><input name="password" type="password" placeholder="Required for new user" /></label>
-              <label class="field"><span>Role</span><select name="role"><option value="student">Student</option><option value="admin">Admin</option></select></label>
-              <label class="field"><span>Active</span><select name="is_active"><option value="true">Active</option><option value="false">Inactive</option></select></label>
-              <label class="field"><span>Access start</span><input name="access_start" type="datetime-local" /></label>
-              <label class="field"><span>Access end</span><input name="access_end" type="datetime-local" /></label>
-            </div>
-            <div class="field">
-              <span>Allowed courses</span>
-              <div class="course-checkboxes" id="courseAccessList"></div>
-            </div>
-            <div class="admin-actions">
-              <button class="btn btn-primary" type="submit">Save User</button>
-              <button class="btn btn-secondary" id="clearUserForm" type="button">New User</button>
-            </div>
-          </form>
-          <div class="admin-list" id="userAdminList"></div>
-        </section>
       </section>
     </main>
 
+    <div class="portal-toast" id="portalToast" role="status" aria-live="polite"></div>
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="elearning-config.js"></script>
     <script src="admin.js"></script>
