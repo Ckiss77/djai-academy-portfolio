@@ -198,6 +198,22 @@ on public.user_course_access for select
 to authenticated
 using (user_id = auth.uid() or public.is_admin());
 
+grant usage on schema public to anon, authenticated, service_role;
+grant select on public.profiles to authenticated;
+grant select on public.course_categories to authenticated;
+grant select on public.courses to authenticated;
+grant select on public.course_videos to authenticated;
+grant select on public.course_documents to authenticated;
+grant select on public.user_course_access to authenticated;
+grant all on public.profiles to service_role;
+grant all on public.course_categories to service_role;
+grant all on public.courses to service_role;
+grant all on public.course_videos to service_role;
+grant all on public.course_documents to service_role;
+grant all on public.user_course_access to service_role;
+grant execute on function public.is_admin() to authenticated, service_role;
+grant execute on function public.user_can_access_course(uuid) to authenticated, service_role;
+
 -- Writes are handled through Netlify Functions with SUPABASE_SERVICE_ROLE_KEY.
 -- Service role bypasses RLS, so no public write policies are created here.
 
