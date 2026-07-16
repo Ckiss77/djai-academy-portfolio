@@ -951,6 +951,104 @@ h1 {
   padding-top: 22px;
 }
 
+.recognition {
+  padding-top: 28px;
+  padding-bottom: 28px;
+}
+
+.recognition-heading {
+  max-width: 760px;
+  margin-bottom: 24px;
+}
+
+.recognition-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  gap: 14px;
+}
+
+.recognition-card {
+  position: relative;
+  min-height: 390px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(9, 16, 39, 0.76);
+  box-shadow: var(--shadow);
+}
+
+.recognition-card::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2;
+  width: 58px;
+  height: 58px;
+  border-right: 1px solid rgba(85, 255, 203, 0.72);
+  border-bottom: 1px solid rgba(85, 255, 203, 0.72);
+}
+
+.recognition-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 390px;
+  object-fit: cover;
+  transition: transform 360ms ease, filter 360ms ease;
+}
+
+.recognition-award img {
+  object-position: center;
+}
+
+.recognition-leadership img {
+  object-position: 52% 22%;
+}
+
+.recognition-card:hover img {
+  filter: saturate(1.08) contrast(1.04);
+  transform: scale(1.025);
+}
+
+.recognition-card figcaption {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  z-index: 3;
+  max-width: 540px;
+  padding: 16px 76px 16px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 7px;
+  background: rgba(5, 8, 23, 0.78);
+  backdrop-filter: blur(16px);
+}
+
+.recognition-card figcaption span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--green);
+  font-family: "Sora", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.recognition-card figcaption strong {
+  display: block;
+  font-family: "Sora", "Noto Sans Thai", sans-serif;
+  font-size: 1.08rem;
+  line-height: 1.35;
+}
+
+.recognition-card figcaption p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
 .speaker-gallery-grid {
   display: grid;
   grid-auto-flow: dense;
@@ -1180,6 +1278,7 @@ h1 {
 
   .service-grid,
   .portfolio-panel,
+  .recognition-grid,
   .speaker-gallery-grid,
   .timeline-track {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1225,6 +1324,7 @@ h1 {
   .hero-stats,
   .service-grid,
   .portfolio-panel,
+  .recognition-grid,
   .credential-grid,
   .speaker-gallery-grid,
   .timeline-track {
@@ -1239,6 +1339,11 @@ h1 {
   .service-card,
   .work-card {
     min-height: 220px;
+  }
+
+  .recognition-card,
+  .recognition-card img {
+    min-height: 300px;
   }
 
   .speaker-shot,
