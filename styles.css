@@ -965,11 +965,12 @@ h1 {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
   gap: 14px;
+  align-items: start;
 }
 
 .recognition-card {
-  position: relative;
-  min-height: 390px;
+  display: flex;
+  flex-direction: column;
   margin: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -978,51 +979,32 @@ h1 {
   box-shadow: var(--shadow);
 }
 
-.recognition-card::after {
-  content: "";
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
-  z-index: 2;
-  width: 58px;
-  height: 58px;
-  border-right: 1px solid rgba(85, 255, 203, 0.72);
-  border-bottom: 1px solid rgba(85, 255, 203, 0.72);
-}
-
 .recognition-card img {
+  display: block;
   width: 100%;
-  height: 100%;
-  min-height: 390px;
-  object-fit: cover;
+  height: auto;
+  min-height: 0;
+  object-fit: contain;
+  background: #060a1b;
   transition: transform 360ms ease, filter 360ms ease;
 }
 
 .recognition-award img {
-  object-position: center;
+  aspect-ratio: 1200 / 630;
 }
 
 .recognition-leadership img {
-  object-position: 52% 22%;
+  aspect-ratio: 1 / 1;
 }
 
 .recognition-card:hover img {
   filter: saturate(1.08) contrast(1.04);
-  transform: scale(1.025);
 }
 
 .recognition-card figcaption {
-  position: absolute;
-  right: 16px;
-  bottom: 16px;
-  left: 16px;
-  z-index: 3;
-  max-width: 540px;
-  padding: 16px 76px 16px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 7px;
-  background: rgba(5, 8, 23, 0.78);
-  backdrop-filter: blur(16px);
+  padding: 18px;
+  border-top: 1px solid var(--line);
+  background: rgba(5, 8, 23, 0.72);
 }
 
 .recognition-card figcaption span {
@@ -1341,9 +1323,8 @@ h1 {
     min-height: 220px;
   }
 
-  .recognition-card,
   .recognition-card img {
-    min-height: 300px;
+    min-height: 0;
   }
 
   .speaker-shot,
