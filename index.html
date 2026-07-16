@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DJAI Academy | AI Adoption & Digital Transformation Portfolio</title>
+    <meta
+      name="description"
+      content="Portfolio website for DJAI Academy: AI adoption, digital transformation, AI Avatar, cinematic video, web creation, training, consulting, and digital solutions."
+    />
+    <meta name="theme-color" content="#050817" />
+    <meta property="og:title" content="DJAI Academy Portfolio" />
+    <meta
+      property="og:description"
+      content="The Beginning of Infinite Creation. AI training, consulting, digital transformation, and creative AI portfolio."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/chatchai.jpg" />
+    <link rel="icon" type="image/png" href="assets/djai-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas class="signal-canvas" id="signalCanvas" aria-hidden="true"></canvas>
+    <div class="ambient ambient-a" aria-hidden="true"></div>
+    <div class="ambient ambient-b" aria-hidden="true"></div>
+    <div class="scanline" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="DJAI Academy home">
+        <span class="brand-mark">
+          <img src="assets/djai-mark.jpg" alt="" />
+        </span>
+        <span class="brand-copy">
+          <strong>DJAI Academy</strong>
+          <span>The Beginning of Infinite Creation</span>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#expertise">Expertise</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#speaker">Speaker</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-media" aria-hidden="true">
+          <img src="assets/djai-logo.png" alt="" />
+        </div>
+        <div class="hero-content" data-reveal>
+          <p class="eyebrow">AI Adoption | Digital Transformation | Creative AI Studio</p>
+          <h1 class="sr-only">DJAI Academy</h1>
+          <div class="hero-brand-lockup" aria-hidden="true">
+            <img src="assets/djai-hero-lockup.png" alt="" />
+          </div>
+          <p class="hero-subtitle">
+            สร้างพอร์ตโฟลิโอแห่งอนาคตสำหรับองค์กรและผู้บริหารที่ต้องการเปลี่ยน AI ให้เป็นผลลัพธ์จริง
+            ตั้งแต่กลยุทธ์ การฝึกอบรม โซลูชันดิจิทัล ไปจนถึงคอนเทนต์ AI ที่ทรงพลัง
+          </p>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a class="btn btn-primary" href="#portfolio">
+              <span class="btn-icon">▶</span>
+              ดูผลงาน
+            </a>
+            <a class="btn btn-secondary" href="#contact">
+              <span class="btn-icon">✦</span>
+              เริ่มโปรเจกต์ AI
+            </a>
+          </div>
+          <div class="hero-stats" aria-label="DJAI Academy highlights">
+            <div>
+              <strong>AI</strong>
+              <span>Training & Consulting</span>
+            </div>
+            <div>
+              <strong>DX</strong>
+              <span>Enterprise Modernization</span>
+            </div>
+            <div>
+              <strong>Web 2.0</strong>
+              <span>Creative Digital Portfolio</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section intro" data-reveal>
+        <div class="section-heading">
+          <p class="eyebrow">Modern AI Enablement</p>
+          <h2>From legacy operations to high-speed digital workplaces.</h2>
+        </div>
+        <p>
+          DJAI Academy ให้บริการ AI & Digital Training, Consulting และ Solution Provider
+          สำหรับองค์กรที่ต้องการยกระดับความเร็ว ความเข้าใจเชิงข้อมูล และประสิทธิภาพการทำงานด้วย AI
+        </p>
+      </section>
+
+      <section class="section expertise" id="expertise">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Core Expertise</p>
+          <h2>บริการหลักที่เชื่อมกลยุทธ์ เทคโนโลยี และครีเอทีฟเข้าด้วยกัน</h2>
+        </div>
+        <div class="service-grid">
+          <article class="service-card" data-reveal>
+            <span class="card-index">01</span>
+            <h3>AI Adoption Roadmap</h3>
+            <p>วางแผนการนำ AI มาใช้ในองค์กรสำหรับผู้บริหาร พร้อมกรอบการตัดสินใจและแนวทาง execution ที่ทำได้จริง</p>
+          </article>
+          <article class="service-card" data-reveal>
+            <span class="card-index">02</span>
+            <h3>AI for Application & Web Builder</h3>
+            <p>ฝึกอบรมและสร้างเครื่องมือดิจิทัลด้วย AI, low-code และแนวคิด high-speed workspace</p>
+          </article>
+          <article class="service-card" data-reveal>
+            <span class="card-index">03</span>
+            <h3>AI for VDO & Movie Creator</h3>
+            <p>ผลิตวิดีโอ cinematic, avatar และ storytelling ด้วย AI สำหรับการสื่อสารที่น่าจดจำ</p>
+          </article>
+          <article class="service-card" data-reveal>
+            <span class="card-index">04</span>
+            <h3>Data Intelligence</h3>
+            <p>เปลี่ยนข้อมูลให้เป็น insight สำหรับ executive decision-making และ operational performance</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section portfolio" id="portfolio">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Selected Works</p>
+          <h2>Portfolio matrix: AI Avatar, cinematic video, and web experiences.</h2>
+        </div>
+
+        <div class="portfolio-tabs" role="tablist" aria-label="Portfolio categories" data-reveal>
+          <button class="tab-button active" type="button" data-target="avatar" role="tab" aria-selected="true">AI Avatar</button>
+          <button class="tab-button" type="button" data-target="cinematic" role="tab" aria-selected="false">AI VDO Cinematic</button>
+          <button class="tab-button" type="button" data-target="website" role="tab" aria-selected="false">Website</button>
+        </div>
+
+        <div class="portfolio-panel active" id="avatar" role="tabpanel">
+          <a class="work-card" href="https://youtube.com/shorts/qsp_S1Ct8fg" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/01-avatar-a-multi-language.png" alt="Preview of AVATAR - A Multi-Language" loading="lazy" /></div>
+            <span>Shorts</span>
+            <h3>AVATAR - A Multi-Language</h3>
+            <p>AI avatar communication for multilingual presentation and digital storytelling.</p>
+          </a>
+          <a class="work-card" href="https://youtube.com/shorts/4gqkhotaWGQ" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/02-avatar-pinto-th-sub-en.png" alt="Preview of AVATAR - Pinto TH sub EN" loading="lazy" /></div>
+            <span>Thai / English</span>
+            <h3>AVATAR - Pinto TH sub EN</h3>
+            <p>Localized AI avatar video with bilingual subtitle treatment.</p>
+          </a>
+          <a class="work-card" href="https://youtube.com/shorts/T0WGY5_v7Eo" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/03-avatar-pinto-en-sub-th.png" alt="Preview of AVATAR - Pinto EN sub TH" loading="lazy" /></div>
+            <span>English / Thai</span>
+            <h3>AVATAR - Pinto EN sub TH</h3>
+            <p>Cross-language avatar content designed for global audiences.</p>
+          </a>
+          <a class="work-card" href="https://youtube.com/shorts/xUIhVfCXXxA" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/04-avatar-mindset01.png" alt="Preview of AVATAR - Mindset01" loading="lazy" /></div>
+            <span>Mindset</span>
+            <h3>AVATAR - Mindset01</h3>
+            <p>Short-form AI avatar content for mindset and leadership messaging.</p>
+          </a>
+          <a class="work-card" href="https://youtube.com/shorts/GKnt3XfkiT0" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/05-avatar-invest02.png" alt="Preview of AVATAR - Invest02" loading="lazy" /></div>
+            <span>Invest</span>
+            <h3>AVATAR - Invest02</h3>
+            <p>Business-themed avatar video for investment and strategy communication.</p>
+          </a>
+          <a class="work-card" href="https://youtube.com/shorts/PCGi-eTh_dc?feature=share" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/06-avatar-evangelist01.png" alt="Preview of AVATAR - Evangelist01" loading="lazy" /></div>
+            <span>Evangelist</span>
+            <h3>AVATAR - Evangelist01</h3>
+            <p>AI evangelist style content for inspiring adoption and change.</p>
+          </a>
+          <a class="work-card" href="https://youtube.com/shorts/LVhGBPeP2Gw" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/07-avatar-evangelist02.png" alt="Preview of AVATAR - Evangelist02" loading="lazy" /></div>
+            <span>Evangelist</span>
+            <h3>AVATAR - Evangelist02</h3>
+            <p>Continuation of the evangelist series with short-form AI delivery.</p>
+          </a>
+        </div>
+
+        <div class="portfolio-panel" id="cinematic" role="tabpanel" hidden>
+          <a class="work-card large" href="https://youtu.be/YuVYlsOauMc" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/08-i-am-hero.png" alt="Preview of I am Hero" loading="lazy" /></div>
+            <span>Cinematic</span>
+            <h3>I am Hero</h3>
+            <p>Heroic AI cinematic concept video with emotionally charged storytelling.</p>
+          </a>
+          <a class="work-card" href="https://youtu.be/Lzjxtw9juGA" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/09-hiroshima.png" alt="Preview of Hiroshima" loading="lazy" /></div>
+            <span>Cinematic</span>
+            <h3>Hiroshima</h3>
+            <p>Atmospheric AI video production with historical and dramatic treatment.</p>
+          </a>
+          <a class="work-card" href="https://youtu.be/YuZv0xnTiuQ" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/10-super-hero01.png" alt="Preview of Super Hero01" loading="lazy" /></div>
+            <span>Super Hero</span>
+            <h3>Super Hero01</h3>
+            <p>AI-generated superhero concept for cinematic storytelling.</p>
+          </a>
+          <a class="work-card" href="https://youtu.be/LhN0igF-DRo" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/11-super-hero02.png" alt="Preview of Super Hero02" loading="lazy" /></div>
+            <span>Super Hero</span>
+            <h3>Super Hero02</h3>
+            <p>Visual world-building and AI-assisted movie-style sequence.</p>
+          </a>
+          <a class="work-card" href="https://youtu.be/C546tqPls_0" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/12-super-hero03.png" alt="Preview of Super Hero03" loading="lazy" /></div>
+            <span>Super Hero</span>
+            <h3>Super Hero03</h3>
+            <p>Expanded superhero visual treatment using cinematic AI workflow.</p>
+          </a>
+          <a class="work-card" href="https://youtu.be/K9T9zzmYCO8" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/13-super-hero04.png" alt="Preview of Super Hero04" loading="lazy" /></div>
+            <span>Super Hero</span>
+            <h3>Super Hero04</h3>
+            <p>AI video concept production for action-oriented storytelling.</p>
+          </a>
+        </div>
+
+        <div class="portfolio-panel" id="website" role="tabpanel" hidden>
+          <a class="work-card" href="https://roof.kusolutions.co/" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/14-roof-ku-solutions.png" alt="Preview of Roof KU Solutions" loading="lazy" /></div>
+            <span>Website</span>
+            <h3>Roof KU Solutions</h3>
+            <p>Professional web presence with product-focused presentation.</p>
+          </a>
+          <a class="work-card" href="https://stunning-cranachan-2cdc35.netlify.app/" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/15-creative-web-build.png" alt="Preview of Creative Web Build" loading="lazy" /></div>
+            <span>Netlify</span>
+            <h3>Creative Web Build</h3>
+            <p>Fast-deployed portfolio style website experience.</p>
+          </a>
+          <a class="work-card" href="https://magma-site-nu.vercel.app/" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/16-magma-site.png" alt="Preview of Magma Site" loading="lazy" /></div>
+            <span>Vercel</span>
+            <h3>Magma Site</h3>
+            <p>Modern website prototype with sharp visual direction.</p>
+          </a>
+          <a class="work-card" href="https://spylt-website-react.vercel.app/" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/17-spylt-website.png" alt="Preview of Spylt Website" loading="lazy" /></div>
+            <span>React</span>
+            <h3>Spylt Website</h3>
+            <p>Interactive brand website built for visual impact.</p>
+          </a>
+          <a class="work-card" href="https://shark.ourwebprojects.pro/" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/18-shark.png" alt="Preview of Shark" loading="lazy" /></div>
+            <span>Web Project</span>
+            <h3>Shark</h3>
+            <p>Bold digital experience with distinctive creative execution.</p>
+          </a>
+          <a class="work-card" href="https://space-cat.ourwebprojects.pro/" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/19-space-cat.png" alt="Preview of Space Cat" loading="lazy" /></div>
+            <span>Web Project</span>
+            <h3>Space Cat</h3>
+            <p>Playful themed web experience with polished deployment.</p>
+          </a>
+          <a class="work-card" href="https://ssrgc.com/" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/20-ssrgc.png" alt="Preview of SSRGC" loading="lazy" /></div>
+            <span>Business</span>
+            <h3>SSRGC</h3>
+            <p>Business website with structured company presentation.</p>
+          </a>
+          <a class="work-card" href="https://lunahomemadebakery.com/" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/21-luna-homemade-bakery.png" alt="Preview of Luna Homemade Bakery" loading="lazy" /></div>
+            <span>Brand</span>
+            <h3>Luna Homemade Bakery</h3>
+            <p>Warm brand website for product storytelling and customer trust.</p>
+          </a>
+          <a class="work-card" href="https://siamesecatcafe.com/" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/22-siamese-cat-cafe.png" alt="Preview of Siamese Cat Cafe" loading="lazy" /></div>
+            <span>Cafe</span>
+            <h3>Siamese Cat Cafe</h3>
+            <p>Venue website designed for discoverability and brand atmosphere.</p>
+          </a>
+          <a class="work-card" href="https://siamesecat.cafe/" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/23-siamese-cat-cafe-alt.png" alt="Preview of Siamese Cat Cafe Alt" loading="lazy" /></div>
+            <span>Cafe</span>
+            <h3>Siamese Cat Cafe Alt</h3>
+            <p>Alternative cafe web presence with direct domain access.</p>
+          </a>
+          <a class="work-card" href="https://kusolutions.co/" target="_blank" rel="noreferrer" data-reveal>
+            <div class="work-preview"><img src="assets/previews/24-ku-solutions.png" alt="Preview of KU Solutions" loading="lazy" /></div>
+            <span>Corporate</span>
+            <h3>KU Solutions</h3>
+            <p>Corporate website for services, credibility, and conversion.</p>
+          </a>
+        </div>
+      </section>
+
+      <section class="section speaker" id="speaker">
+        <div class="speaker-card" data-reveal>
+          <figure class="speaker-portrait" aria-label="Chatchai Suthapakti portrait">
+            <img src="assets/chatchai.jpg" alt="Chatchai Suthapakti, CEO and Co-Founder of DJAI Academy" />
+            <figcaption>
+              <span>AI Transformation Speaker</span>
+              <strong>Chatchai Suthapakti</strong>
+            </figcaption>
+          </figure>
+          <div class="speaker-profile">
+            <div>
+              <p class="eyebrow">Speaker Profile</p>
+              <h2>Chatchai Suthapakti</h2>
+              <p class="role">CEO & Co-Founder, DJAI Academy</p>
+              <p>
+                Technology leader and AI transformation speaker focused on modernizing enterprise platforms,
+                building data intelligence capabilities, and turning legacy operations into high-speed digital workplaces.
+              </p>
+            </div>
+            <div class="credential-grid">
+              <div>
+                <span>Award</span>
+                <strong>CIO75 ASEAN Awards 2021</strong>
+              </div>
+              <div>
+                <span>Association</span>
+                <strong>Chapter Vice President, TCIOA</strong>
+              </div>
+              <div>
+                <span>Education</span>
+                <strong>Master of IT & Management, Assumption University</strong>
+              </div>
+              <div>
+                <span>Experience</span>
+                <strong>CIO, CTO, Head of IT, Enterprise Technology Leadership</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section speaker-gallery" aria-label="Speaker gallery">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Speaker Gallery</p>
+          <h2>AI adoption sessions, executive training, and transformation workshops.</h2>
+        </div>
+        <div class="speaker-gallery-grid">
+          <figure class="speaker-shot speaker-shot-feature" data-reveal>
+            <img src="assets/speaker/speaker-12.jpg" alt="DJAI Academy speaker workshop group session" loading="lazy" />
+            <figcaption>
+              <span>Workshop</span>
+              <strong>Generative AI for Teams</strong>
+            </figcaption>
+          </figure>
+          <figure class="speaker-shot" data-reveal>
+            <img src="assets/speaker/speaker-07.jpg" alt="Chatchai Suthapakti speaking about digital transformation" loading="lazy" />
+            <figcaption>
+              <span>Talk</span>
+              <strong>Digital Transformation</strong>
+            </figcaption>
+          </figure>
+          <figure class="speaker-shot speaker-shot-tall" data-reveal>
+            <img src="assets/speaker/speaker-11.jpg" alt="Digital transformation speaker poster" loading="lazy" />
+            <figcaption>
+              <span>Keynote</span>
+              <strong>AI for Business Leaders</strong>
+            </figcaption>
+          </figure>
+          <figure class="speaker-shot" data-reveal>
+            <img src="assets/speaker/speaker-06.jpg" alt="DJAI Academy AI workshop artwork" loading="lazy" />
+            <figcaption>
+              <span>AI Adoption</span>
+              <strong>Driving AI in Organizations</strong>
+            </figcaption>
+          </figure>
+          <figure class="speaker-shot" data-reveal>
+            <img src="assets/speaker/speaker-01.jpg" alt="Audience attending DJAI Academy training session" loading="lazy" />
+            <figcaption>
+              <span>Training</span>
+              <strong>Enterprise Learning Room</strong>
+            </figcaption>
+          </figure>
+          <figure class="speaker-shot" data-reveal>
+            <img src="assets/speaker/speaker-03.jpg" alt="Group photo after DJAI Academy seminar" loading="lazy" />
+            <figcaption>
+              <span>Community</span>
+              <strong>Executive Cohort</strong>
+            </figcaption>
+          </figure>
+          <figure class="speaker-shot" data-reveal>
+            <img src="assets/speaker/speaker-04.jpg" alt="Classroom session for AI and digital transformation" loading="lazy" />
+            <figcaption>
+              <span>Session</span>
+              <strong>Technology Training</strong>
+            </figcaption>
+          </figure>
+          <figure class="speaker-shot" data-reveal>
+            <img src="assets/speaker/speaker-05.jpg" alt="Speaker presenting at Panasonic digital session" loading="lazy" />
+            <figcaption>
+              <span>Corporate</span>
+              <strong>Digital Program</strong>
+            </figcaption>
+          </figure>
+          <figure class="speaker-shot" data-reveal>
+            <img src="assets/speaker/speaker-08.jpg" alt="Group photo from AI training program" loading="lazy" />
+            <figcaption>
+              <span>Class</span>
+              <strong>AI Workshop Group</strong>
+            </figcaption>
+          </figure>
+          <figure class="speaker-shot" data-reveal>
+            <img src="assets/speaker/speaker-09.jpg" alt="Business team photo from DJAI Academy engagement" loading="lazy" />
+            <figcaption>
+              <span>Client</span>
+              <strong>Business Engagement</strong>
+            </figcaption>
+          </figure>
+          <figure class="speaker-shot" data-reveal>
+            <img src="assets/speaker/speaker-10.jpg" alt="DJAI Academy master class group photo" loading="lazy" />
+            <figcaption>
+              <span>Master Class</span>
+              <strong>AI for Professionals</strong>
+            </figcaption>
+          </figure>
+          <figure class="speaker-shot" data-reveal>
+            <img src="assets/speaker/speaker-02.jpg" alt="Lecture room presentation for AI adoption" loading="lazy" />
+            <figcaption>
+              <span>Lecture</span>
+              <strong>Applied AI Session</strong>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section timeline" data-reveal>
+        <div class="section-heading">
+          <p class="eyebrow">Executive Experience</p>
+          <h2>Enterprise leadership across technology, data, infrastructure, and transformation.</h2>
+        </div>
+        <div class="timeline-track" aria-label="Selected executive experience">
+          <div><span>DJAI Academy</span><strong>CEO & Co-Founder</strong></div>
+          <div><span>Thai Rung Partners Group</span><strong>CIO / IT Director</strong></div>
+          <div><span>HMC Polymers</span><strong>Head of IT</strong></div>
+          <div><span>Icon Framework</span><strong>Chief Technology Officer</strong></div>
+          <div><span>Hafele Thailand</span><strong>IT Manager</strong></div>
+          <div><span>TOA Paint Thailand</span><strong>Digital Transformation & IT Leadership</strong></div>
+        </div>
+      </section>
+
+      <section class="section contact" id="contact" data-reveal>
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>พร้อมยกระดับองค์กรด้วย AI และ digital transformation</h2>
+          <p>
+            ติดต่อ DJAI Academy เพื่อออกแบบ training, consulting, AI solution หรือ creative AI portfolio
+            ให้เหมาะกับเป้าหมายขององค์กร
+          </p>
+        </div>
+        <div class="contact-actions">
+          <a class="contact-link" href="mailto:chatchai@djai.academy">
+            <span>Email</span>
+            <strong>chatchai@djai.academy</strong>
+          </a>
+          <a class="contact-link" href="tel:+66818090377">
+            <span>Phone</span>
+            <strong>+66 81 809 0377</strong>
+          </a>
+          <a class="contact-link" href="https://djai.academy" target="_blank" rel="noreferrer">
+            <span>Website</span>
+            <strong>djai.academy</strong>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>DJAI Academy</span>
+      <span>AI Adoption | Digital Transformation | Infinite Creation</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
