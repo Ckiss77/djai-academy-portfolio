@@ -522,9 +522,26 @@ h1 {
 
 .service-card {
   position: relative;
-  min-height: 280px;
+  min-height: 430px;
   overflow: hidden;
-  padding: 24px;
+  padding: 16px;
+}
+
+.service-thumbnail {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-top: 14px;
+  border: 1px solid rgba(39, 230, 255, 0.32);
+  border-radius: 5px;
+  object-fit: cover;
+  box-shadow: 0 10px 24px rgba(1, 7, 24, 0.42);
+  transition: transform 240ms ease, filter 240ms ease;
+}
+
+.service-card:hover .service-thumbnail {
+  filter: saturate(1.14) brightness(1.07);
+  transform: scale(1.025);
 }
 
 .service-card::after,
@@ -547,7 +564,7 @@ h1 {
 }
 
 .service-card h3 {
-  margin: 46px 0 12px;
+  margin: 18px 0 10px;
   font-size: 1.18rem;
   line-height: 1.24;
 }
