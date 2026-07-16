@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DJAI Academy | Admin Portal</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#050817" />
+    <link rel="icon" type="image/png" href="assets/djai-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="elearning.css" />
+  </head>
+  <body class="portal-body">
+    <canvas class="signal-canvas" id="signalCanvas" aria-hidden="true"></canvas>
+    <div class="ambient ambient-a" aria-hidden="true"></div>
+    <div class="ambient ambient-b" aria-hidden="true"></div>
+    <div class="scanline" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="DJAI Academy home">
+        <span class="brand-mark"><img src="assets/djai-mark.jpg" alt="" /></span>
+        <span class="brand-copy">
+          <strong>DJAI Academy</strong>
+          <span>Admin Portal</span>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Admin navigation">
+        <a href="learn.html">Learning</a>
+        <a href="index.html">Portfolio</a>
+      </nav>
+    </header>
+
+    <main class="portal-main">
+      <section class="portal-hero" id="adminLoginView">
+        <div class="portal-panel">
+          <p class="eyebrow">Admin Control</p>
+          <h1>Manage online courses and learner access.</h1>
+          <p>
+            จัดหมวดหมู่คอร์ส วิดีโอ YouTube unlisted เอกสารประกอบการเรียน และสิทธิ์ผู้เรียน
+            จากหน้าเดียว
+          </p>
+        </div>
+        <form class="portal-form" id="adminLoginForm">
+          <h2>Admin Login</h2>
+          <p class="portal-status" id="adminLoginStatus"></p>
+          <div class="form-grid">
+            <label class="field">
+              <span>Email</span>
+              <input name="email" type="email" autocomplete="email" required />
+            </label>
+            <label class="field">
+              <span>Password</span>
+              <input name="password" type="password" autocomplete="current-password" required />
+            </label>
+            <button class="btn btn-primary" type="submit">Login</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="is-hidden" id="adminAppView">
+        <div class="admin-toolbar">
+          <div>
+            <p class="eyebrow">DJAI Academy LMS</p>
+            <h1 class="sr-only">Admin Portal</h1>
+            <p class="portal-user" id="adminSummary"></p>
+            <p class="portal-status" id="adminStatus"></p>
+          </div>
+          <button class="btn btn-secondary" id="adminLogoutButton" type="button">Logout</button>
+        </div>
+
+        <div class="admin-tabs" role="tablist">
+          <button class="admin-tab active" data-admin-tab="courses" type="button">Courses</button>
+          <button class="admin-tab" data-admin-tab="users" type="button">Users</button>
+        </div>
+
+        <section class="admin-panel active" id="coursesPanel">
+          <h2>Course Structure</h2>
+          <form class="portal-form" id="categoryForm">
+            <input name="id" type="hidden" />
+            <div class="form-grid two">
+              <label class="field"><span>Category name</span><input name="name" required /></label>
+              <label class="field"><span>Slug</span><input name="slug" required /></label>
+            </div>
+            <label class="field"><span>Description</span><textarea name="description"></textarea></label>
+            <button class="btn btn-primary" type="submit">Save Category</button>
+          </form>
+
+          <form class="portal-form" id="courseForm">
+            <input name="id" type="hidden" />
+            <div class="form-grid two">
+              <label class="field"><span>Course title</span><input name="title" required /></label>
+              <label class="field"><span>Slug</span><input name="slug" required /></label>
+              <label class="field"><span>Category</span><select name="category_id"></select></label>
+              <label class="field"><span>Sort order</span><input name="sort_order" type="number" value="0" /></label>
+            </div>
+            <label class="field"><span>Thumbnail URL</span><input name="thumbnail_url" /></label>
+            <label class="field"><span>Description</span><textarea name="description"></textarea></label>
+            <label class="field"><span>Status</span><select name="is_published"><option value="true">Published</option><option value="false">Draft</option></select></label>
+            <button class="btn btn-primary" type="submit">Save Course</button>
+          </form>
+
+          <form class="portal-form" id="videoForm">
+            <input name="id" type="hidden" />
+            <div class="form-grid two">
+              <label class="field"><span>Course</span><select name="course_id" required></select></label>
+              <label class="field"><span>Video title</span><input name="title" required /></label>
+              <label class="field"><span>YouTube URL</span><input name="youtube_url" required /></label>
+              <label class="field"><span>Sort order</span><input name="sort_order" type="number" value="0" /></label>
+            </div>
+            <label class="field"><span>Description</span><textarea name="description"></textarea></label>
+            <button class="btn btn-primary" type="submit">Save Video</button>
+          </form>
+
+          <form class="portal-form" id="documentForm">
+            <div class="form-grid two">
+              <label class="field"><span>Course</span><select name="course_id" required></select></label>
+              <label class="field"><span>Document title</span><input name="title" required /></label>
+              <label class="field"><span>Sort order</span><input name="sort_order" type="number" value="0" /></label>
+              <label class="field"><span>File</span><input name="file" type="file" required /></label>
+            </div>
+            <button class="btn btn-primary" type="submit">Upload Document</button>
+          </form>
+
+          <div class="admin-list" id="courseAdminList"></div>
+        </section>
+
+        <section class="admin-panel" id="usersPanel">
+          <h2>User Management</h2>
+          <form class="portal-form" id="userForm">
+            <input name="id" type="hidden" />
+            <div class="form-grid two">
+              <label class="field"><span>Email</span><input name="email" type="email" required /></label>
+              <label class="field"><span>Full name</span><input name="full_name" /></label>
+              <label class="field"><span>Password</span><input name="password" type="password" placeholder="Required for new user" /></label>
+              <label class="field"><span>Role</span><select name="role"><option value="student">Student</option><option value="admin">Admin</option></select></label>
+              <label class="field"><span>Active</span><select name="is_active"><option value="true">Active</option><option value="false">Inactive</option></select></label>
+              <label class="field"><span>Access start</span><input name="access_start" type="datetime-local" /></label>
+              <label class="field"><span>Access end</span><input name="access_end" type="datetime-local" /></label>
+            </div>
+            <div class="field">
+              <span>Allowed courses</span>
+              <div class="course-checkboxes" id="courseAccessList"></div>
+            </div>
+            <div class="admin-actions">
+              <button class="btn btn-primary" type="submit">Save User</button>
+              <button class="btn btn-secondary" id="clearUserForm" type="button">New User</button>
+            </div>
+          </form>
+          <div class="admin-list" id="userAdminList"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="elearning-config.js"></script>
+    <script src="admin.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
