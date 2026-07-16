@@ -2,7 +2,7 @@ const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 const ui = {
-  loginView: $("#adminLoginView"), appView: $("#adminAppView"), loginForm: $("#adminLoginForm"),
+  loginView: $("#adminLoginView"), deniedView: $("#adminDeniedView"), appView: $("#adminAppView"), loginForm: $("#adminLoginForm"),
   loginStatus: $("#adminLoginStatus"), status: $("#adminStatus"), summary: $("#adminSummary"),
   avatar: $("#adminAvatar"), logout: $("#adminLogoutButton"), toast: $("#portalToast"),
   categoryForm: $("#categoryForm"), courseForm: $("#courseForm"), videoForm: $("#videoForm"),
@@ -10,10 +10,12 @@ const ui = {
   courseList: $("#courseAdminList"), categoryList: $("#categoryAdminList"), contentList: $("#contentAdminList"),
   userList: $("#userAdminList"), accessList: $("#courseAccessList"), recentCourses: $("#recentCourseList"),
   courseSearch: $("#adminCourseSearch"), userSearch: $("#adminUserSearch"), contentFilter: $("#contentCourseFilter"),
+  switchAccount: $("#switchAdminAccount"),
 };
 
 let adminClient;
 let adminSession;
+let loginInProgress = false;
 let courseData = { categories: [], courses: [], videos: [], documents: [] };
 let userData = { users: [], courses: [] };
 
@@ -40,17 +42,50 @@ function setBusy(button, busy, label = "กำลังบันทึก") {
   refreshIcons();
 }
 
-function toggleAdmin(isLoggedIn) {
-  ui.loginView.classList.toggle("is-hidden", isLoggedIn);
-  ui.appView.classList.toggle("is-hidden", !isLoggedIn);
-  ui.logout.classList.toggle("is-hidden", !isLoggedIn);
+function showAdminView(view) {
+  ui.loginView.classList.toggle("is-hidden", view !== "login");
+  ui.deniedView.classList.toggle("is-hidden", view !== "denied");
+  ui.appView.classList.toggle("is-hidden", view !== "app");
+  ui.logout.classList.toggle("is-hidden", view !== "app");
+}
+
+function clearSensitiveAdminState() {
+  courseData = { categories: [], courses: [], videos: [], documents: [] };
+  userData = { users: [], courses: [] };
+  ui.courseList.innerHTML = "";
+  ui.categoryList.innerHTML = "";
+  ui.contentList.innerHTML = "";
+  ui.userList.innerHTML = "";
+  ui.recentCourses.innerHTML = "";
 }
 
 async function api(path, options = {}) {
   const response = await fetch(path, { ...options, headers: { ...window.DJAI_PORTAL.authHeaders(adminSession), ...(options.headers || {}) } });
   const payload = await response.json();
-  if (!response.ok) throw new Error(payload.message || "ไม่สามารถดำเนินการได้");
+  if (!response.ok) {
+    const error = new Error(payload.message || "ไม่สามารถดำเนินการได้");
+    error.status = response.status;
+    throw error;
+  }
   return payload;
+}
+
+async function verifyAdminSession() {
+  const result = await api("/.netlify/functions/admin-session");
+  if (!result.authorized || result.profile?.role !== "admin") {
+    const error = new Error("Admin access required");
+    error.status = 403;
+    throw error;
+  }
+  return result.profile;
+}
+
+async function enterAdminPortal() {
+  const profile = await verifyAdminSession();
+  ui.summary.textContent = profile.email || adminSession.user.email;
+  ui.avatar.textContent = (profile.full_name || profile.email || "A").charAt(0).toUpperCase();
+  await loadAdminData();
+  showAdminView("app");
 }
 
 async function courseAction(action, payload, successMessage) {
@@ -177,15 +212,39 @@ ui.documentForm.elements.file.addEventListener("change", () => { $("#selectedFil
 ui.loginForm.addEventListener("submit", async (event) => {
   event.preventDefault(); const button = ui.loginForm.querySelector("[type=submit]"); setBusy(button, true, "กำลังเข้าสู่ระบบ"); window.DJAI_PORTAL.setStatus(ui.loginStatus, "");
   const values = formObject(ui.loginForm);
+  loginInProgress = true;
   try {
     const { data, error } = await adminClient.auth.signInWithPassword({ email: values.email.trim(), password: values.password });
     if (error) throw error;
-    adminSession = data.session; ui.summary.textContent = adminSession.user.email; ui.avatar.textContent = adminSession.user.email.charAt(0).toUpperCase(); toggleAdmin(true); await loadAdminData();
-  } catch (error) { window.DJAI_PORTAL.setStatus(ui.loginStatus, error.message || "เข้าสู่ระบบไม่สำเร็จ", "error"); }
-  finally { setBusy(button, false); }
+    adminSession = data.session;
+    await enterAdminPortal();
+  } catch (error) {
+    clearSensitiveAdminState();
+    showAdminView("login");
+    if (error.status === 403) {
+      await adminClient.auth.signOut();
+      adminSession = null;
+      window.DJAI_PORTAL.setStatus(ui.loginStatus, "บัญชีนี้ไม่มีสิทธิ์ Admin กรุณาใช้บัญชีผู้ดูแลระบบ", "error");
+    } else {
+      window.DJAI_PORTAL.setStatus(ui.loginStatus, error.message || "เข้าสู่ระบบไม่สำเร็จ", "error");
+    }
+  } finally { loginInProgress = false; setBusy(button, false); }
 });
 
-ui.logout.addEventListener("click", async () => { await adminClient.auth.signOut(); adminSession = null; toggleAdmin(false); });
+ui.logout.addEventListener("click", async () => {
+  clearSensitiveAdminState();
+  await adminClient.auth.signOut();
+  adminSession = null;
+  showAdminView("login");
+});
+
+ui.switchAccount.addEventListener("click", async () => {
+  clearSensitiveAdminState();
+  await adminClient.auth.signOut();
+  adminSession = null;
+  showAdminView("login");
+  window.DJAI_PORTAL.setStatus(ui.loginStatus, "กรุณาเข้าสู่ระบบด้วยบัญชี Admin");
+});
 
 ui.categoryForm.addEventListener("submit", async (event) => {
   event.preventDefault(); const button = event.submitter; setBusy(button, true);
@@ -263,7 +322,43 @@ ui.userList.addEventListener("click", async (event) => {
 (async function initAdminPortal() {
   refreshIcons();
   try {
-    adminClient = await window.DJAI_PORTAL.createPortalClient(); adminSession = await window.DJAI_PORTAL.currentSession(adminClient); toggleAdmin(Boolean(adminSession));
-    if (adminSession) { ui.summary.textContent = adminSession.user.email; ui.avatar.textContent = adminSession.user.email.charAt(0).toUpperCase(); await loadAdminData(); }
-  } catch (error) { toggleAdmin(false); window.DJAI_PORTAL.setStatus(ui.loginStatus, error.message || "ระบบยังไม่พร้อมใช้งาน", "error"); }
+    adminClient = await window.DJAI_PORTAL.createPortalClient();
+    adminSession = await window.DJAI_PORTAL.currentSession(adminClient);
+    showAdminView("login");
+
+    if (adminSession) {
+      try {
+        await enterAdminPortal();
+      } catch (error) {
+        clearSensitiveAdminState();
+        showAdminView(error.status === 403 ? "denied" : "login");
+        if (error.status !== 403) window.DJAI_PORTAL.setStatus(ui.loginStatus, error.message, "error");
+      }
+    }
+
+    adminClient.auth.onAuthStateChange((event, session) => {
+      if (loginInProgress) return;
+
+      if (event === "SIGNED_OUT" || !session) {
+        adminSession = null;
+        clearSensitiveAdminState();
+        showAdminView("login");
+        return;
+      }
+
+      if (session.access_token !== adminSession?.access_token) {
+        adminSession = session;
+        clearSensitiveAdminState();
+        showAdminView("login");
+        window.setTimeout(async () => {
+          try {
+            await enterAdminPortal();
+          } catch (error) {
+            clearSensitiveAdminState();
+            showAdminView(error.status === 403 ? "denied" : "login");
+          }
+        }, 0);
+      }
+    });
+  } catch (error) { showAdminView("login"); window.DJAI_PORTAL.setStatus(ui.loginStatus, error.message || "ระบบยังไม่พร้อมใช้งาน", "error"); }
 })();

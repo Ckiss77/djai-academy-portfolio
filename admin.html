@@ -50,6 +50,17 @@
         </form>
       </section>
 
+      <section class="access-denied is-hidden" id="adminDeniedView">
+        <span class="denied-icon"><i data-lucide="shield-x"></i></span>
+        <p class="portal-kicker">Access restricted</p>
+        <h1>บัญชีนี้ไม่มีสิทธิ์เข้าถึง Admin Portal</h1>
+        <p>ระบบนี้เปิดให้เฉพาะผู้ใช้บทบาท Admin เท่านั้น คุณยังสามารถกลับไปเรียนคอร์สที่ได้รับสิทธิ์ได้ตามปกติ</p>
+        <div class="denied-actions">
+          <a class="btn btn-primary" href="learn.html"><i data-lucide="graduation-cap"></i> กลับไปหน้า Learning</a>
+          <button class="btn btn-secondary" id="switchAdminAccount" type="button"><i data-lucide="log-in"></i> ใช้บัญชี Admin อื่น</button>
+        </div>
+      </section>
+
       <section class="admin-shell is-hidden" id="adminAppView">
         <aside class="admin-sidebar">
           <div class="admin-account"><span class="account-avatar" id="adminAvatar">A</span><div><strong>ผู้ดูแลระบบ</strong><small id="adminSummary"></small></div></div>

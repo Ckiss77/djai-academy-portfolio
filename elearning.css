@@ -153,6 +153,23 @@
 .portal-submit svg { width: 17px; }
 .login-help { margin: -4px 0 0; color: #7183a3; font-size: 0.76rem; text-align: center; }
 
+.access-denied {
+  display: grid;
+  min-height: calc(100vh - 176px);
+  max-width: 720px;
+  margin: 0 auto;
+  place-items: center;
+  align-content: center;
+  text-align: center;
+}
+.denied-icon { display: grid; width: 68px; height: 68px; margin-bottom: 18px; place-items: center; border: 1px solid rgba(255, 113, 132, 0.34); border-radius: 50%; background: rgba(255, 113, 132, 0.07); color: #ff8b9a; }
+.denied-icon svg { width: 30px; height: 30px; }
+.access-denied h1 { margin: 0; font: 700 clamp(2rem, 5vw, 3.8rem)/1.18 "Sora", "Noto Sans Thai", sans-serif; }
+.access-denied > p:not(.portal-kicker) { max-width: 620px; margin: 18px 0 0; color: var(--muted); line-height: 1.75; }
+.denied-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 28px; }
+.denied-actions .btn { display: inline-flex; align-items: center; gap: 8px; }
+.denied-actions svg { width: 17px; }
+
 .portal-status { min-height: 18px; margin: 0; color: var(--muted); font-size: 0.82rem; }
 .portal-status.error { color: #ff9eaa; }
 .portal-status.ok { color: var(--green); }
