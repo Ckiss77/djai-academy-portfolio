@@ -34,6 +34,53 @@ tabs.forEach((tab) => {
   });
 });
 
+const cvDownloadButton = document.querySelector("[data-cv-download]");
+
+if (cvDownloadButton) {
+  cvDownloadButton.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    const passcode = window.prompt("Enter passcode to download Full CV");
+
+    if (!passcode) return;
+
+    cvDownloadButton.classList.add("is-loading");
+    cvDownloadButton.setAttribute("aria-busy", "true");
+
+    try {
+      const response = await fetch("/.netlify/functions/download-cv", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ passcode }),
+      });
+
+      if (response.status === 401) {
+        window.alert("Passcode is incorrect.");
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error("Unable to download CV.");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "Chatchai-Suthapakti-Full-CV.pdf";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      window.alert("Sorry, the CV download is unavailable right now.");
+    } finally {
+      cvDownloadButton.classList.remove("is-loading");
+      cvDownloadButton.removeAttribute("aria-busy");
+    }
+  });
+}
+
 const canvas = document.getElementById("signalCanvas");
 const ctx = canvas.getContext("2d");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

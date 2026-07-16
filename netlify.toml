@@ -1,6 +1,9 @@
 [build]
   publish = "."
 
+[functions]
+  included_files = ["netlify/functions/private/**"]
+
 [[headers]]
   for = "/*"
   [headers.values]
