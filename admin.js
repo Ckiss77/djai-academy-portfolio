@@ -10,12 +10,15 @@ const ui = {
   courseList: $("#courseAdminList"), categoryList: $("#categoryAdminList"), contentList: $("#contentAdminList"),
   userList: $("#userAdminList"), accessList: $("#courseAccessList"), recentCourses: $("#recentCourseList"),
   courseSearch: $("#adminCourseSearch"), userSearch: $("#adminUserSearch"), contentFilter: $("#contentCourseFilter"),
-  switchAccount: $("#switchAdminAccount"),
+  switchAccount: $("#switchAdminAccount"), accessDuration: $("#accessDuration"),
+  accessStart: $("#accessStart"), accessEnd: $("#accessEnd"), accessPeriodHint: $("#accessPeriodHint"),
 };
 
 let adminClient;
 let adminSession;
 let loginInProgress = false;
+let accessStartPicker;
+let accessEndPicker;
 let courseData = { categories: [], courses: [], videos: [], documents: [] };
 let userData = { users: [], courses: [] };
 
@@ -23,9 +26,115 @@ function refreshIcons() { window.lucide?.createIcons({ attrs: { "stroke-width": 
 function escapeHtml(value) { const node = document.createElement("div"); node.textContent = String(value ?? ""); return node.innerHTML; }
 function formObject(form) { return Object.fromEntries(new FormData(form).entries()); }
 function boolValue(value) { return value === true || value === "true"; }
-function normalizeDate(value) { return value ? new Date(value).toISOString() : null; }
+function normalizeDate(value, endOfDay = false) {
+  if (!value) return null;
+  const time = endOfDay ? "23:59:59" : "00:00:00";
+  const date = new Date(`${value}T${time}`);
+  return Number.isNaN(date.getTime()) ? null : date.toISOString();
+}
 function slugify(value) { return String(value || "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
 function formatDate(value) { return value ? new Intl.DateTimeFormat("th-TH", { dateStyle: "medium" }).format(new Date(value)) : "ไม่จำกัด"; }
+
+function dateInputValue(value) {
+  if (!value) return "";
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Bangkok", year: "numeric", month: "2-digit", day: "2-digit",
+  }).formatToParts(new Date(value));
+  const part = (type) => parts.find((item) => item.type === type)?.value || "";
+  return `${part("year")}-${part("month")}-${part("day")}`;
+}
+
+function localDateValue(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function updateAccessPeriodHint() {
+  const duration = ui.accessDuration.value;
+  if (duration === "unlimited") {
+    ui.accessPeriodHint.innerHTML = '<i data-lucide="infinity"></i> บัญชีนี้ใช้งานได้โดยไม่มีกำหนดวันสิ้นสุด';
+  } else if (ui.accessStart.value && ui.accessEnd.value) {
+    const start = new Intl.DateTimeFormat("th-TH", { dateStyle: "medium" }).format(new Date(`${ui.accessStart.value}T00:00:00`));
+    const end = new Intl.DateTimeFormat("th-TH", { dateStyle: "medium" }).format(new Date(`${ui.accessEnd.value}T00:00:00`));
+    ui.accessPeriodHint.innerHTML = `<i data-lucide="check-circle-2"></i> ใช้งานได้ตั้งแต่ ${start} ถึง ${end}`;
+  } else {
+    ui.accessPeriodHint.innerHTML = '<i data-lucide="info"></i> กรุณาเลือกวันเริ่มต้นและวันสิ้นสุด';
+  }
+  refreshIcons();
+}
+
+function setAccessFieldsDisabled(disabled) {
+  [accessStartPicker, accessEndPicker].forEach((picker) => {
+    if (!picker) return;
+    picker.input.disabled = disabled;
+    picker._input.disabled = disabled;
+  });
+}
+
+function applyAccessDuration(value) {
+  const isUnlimited = value === "unlimited";
+  setAccessFieldsDisabled(isUnlimited);
+
+  if (isUnlimited) {
+    accessStartPicker.clear(false);
+    accessEndPicker.clear(false);
+  } else if (value !== "custom") {
+    const start = new Date();
+    const end = new Date(start);
+    end.setDate(end.getDate() + Number(value));
+    accessStartPicker.setDate(localDateValue(start), false);
+    accessEndPicker.set("minDate", localDateValue(start));
+    accessEndPicker.setDate(localDateValue(end), false);
+  } else if (!ui.accessStart.value) {
+    const today = localDateValue(new Date());
+    accessStartPicker.setDate(today, false);
+    accessEndPicker.set("minDate", today);
+  }
+
+  updateAccessPeriodHint();
+}
+
+function setAccessDates(start, end) {
+  const startValue = dateInputValue(start);
+  const endValue = dateInputValue(end);
+  ui.accessDuration.value = startValue || endValue ? "custom" : "unlimited";
+  setAccessFieldsDisabled(ui.accessDuration.value === "unlimited");
+  accessStartPicker.setDate(startValue, false);
+  accessEndPicker.set("minDate", startValue || null);
+  accessEndPicker.setDate(endValue, false);
+  updateAccessPeriodHint();
+}
+
+function initAccessDatePickers() {
+  const options = {
+    locale: window.flatpickr?.l10ns?.th || "default",
+    dateFormat: "Y-m-d",
+    altInput: true,
+    altFormat: "j F Y",
+    disableMobile: true,
+    allowInput: false,
+  };
+
+  accessStartPicker = window.flatpickr(ui.accessStart, {
+    ...options,
+    onChange: (_, dateString) => {
+      ui.accessDuration.value = "custom";
+      accessEndPicker.set("minDate", dateString || null);
+      if (ui.accessEnd.value && dateString > ui.accessEnd.value) accessEndPicker.clear(false);
+      updateAccessPeriodHint();
+    },
+  });
+  accessEndPicker = window.flatpickr(ui.accessEnd, {
+    ...options,
+    onChange: () => {
+      ui.accessDuration.value = "custom";
+      updateAccessPeriodHint();
+    },
+  });
+  applyAccessDuration("unlimited");
+}
 
 function showToast(message, type = "ok") {
   ui.toast.textContent = message;
@@ -182,7 +291,11 @@ function renderAdmin() {
 
 function setForm(form, values) { Object.entries(values).forEach(([key, value]) => { if (form.elements[key]) form.elements[key].value = value ?? ""; }); }
 function clearForm(form) { form.reset(); if (form.elements.id) form.elements.id.value = ""; }
-function clearUser() { clearForm(ui.userForm); ui.accessList.querySelectorAll("input").forEach((input) => { input.checked = false; }); }
+function clearUser() {
+  clearForm(ui.userForm);
+  setAccessDates(null, null);
+  ui.accessList.querySelectorAll("input").forEach((input) => { input.checked = false; });
+}
 
 const pageMeta = {
   overview: ["ภาพรวมระบบ", "ตรวจสอบคอร์ส เนื้อหา และผู้ใช้งานทั้งหมด"],
@@ -207,6 +320,7 @@ $$('[data-clear-form]').forEach((button) => button.addEventListener("click", () 
 ui.courseSearch.addEventListener("input", renderCourses);
 ui.userSearch.addEventListener("input", renderUsers);
 ui.contentFilter.addEventListener("change", renderContent);
+ui.accessDuration.addEventListener("change", () => applyAccessDuration(ui.accessDuration.value));
 ui.documentForm.elements.file.addEventListener("change", () => { $("#selectedFileName").textContent = ui.documentForm.elements.file.files[0]?.name || "ยังไม่ได้เลือกไฟล์"; });
 
 ui.loginForm.addEventListener("submit", async (event) => {
@@ -296,7 +410,8 @@ ui.contentList.addEventListener("click", async (event) => {
 
 ui.userForm.addEventListener("submit", async (event) => {
   event.preventDefault(); const button = event.submitter; const v = formObject(ui.userForm); const courseIds = [...ui.accessList.querySelectorAll("input:checked")].map((input) => input.value);
-  const payload = { id: v.id || undefined, email: v.email, full_name: v.full_name || "", password: v.password, role: v.role || "student", is_active: boolValue(v.is_active), access_start: normalizeDate(v.access_start), access_end: normalizeDate(v.access_end), course_ids: courseIds };
+  if (v.access_start && v.access_end && v.access_end < v.access_start) { showToast("วันที่สิ้นสุดต้องไม่น้อยกว่าวันที่เริ่มต้น", "error"); return; }
+  const payload = { id: v.id || undefined, email: v.email, full_name: v.full_name || "", password: v.password, role: v.role || "student", is_active: boolValue(v.is_active), access_start: normalizeDate(v.access_start), access_end: normalizeDate(v.access_end, true), course_ids: courseIds };
   if (!payload.id && !payload.password) { showToast("กรุณากำหนดรหัสผ่านสำหรับผู้ใช้ใหม่", "error"); return; }
   setBusy(button, true);
   try { await userAction(payload.id ? "updateUser" : "createUser", payload, payload.id ? "อัปเดตผู้ใช้แล้ว" : "สร้างผู้ใช้แล้ว"); clearUser(); }
@@ -310,7 +425,8 @@ ui.userList.addEventListener("click", async (event) => {
   const resetId = event.target.closest("[data-reset-user]")?.dataset.resetUser;
   if (editId) {
     const user = userData.users.find((item) => item.id === editId); const profile = user.profile || {};
-    setForm(ui.userForm, { id: user.id, email: user.email, full_name: profile.full_name, role: profile.role || "student", is_active: String(profile.is_active !== false), access_start: profile.access_start ? profile.access_start.slice(0, 16) : "", access_end: profile.access_end ? profile.access_end.slice(0, 16) : "", password: "" });
+    setForm(ui.userForm, { id: user.id, email: user.email, full_name: profile.full_name, role: profile.role || "student", is_active: String(profile.is_active !== false), password: "" });
+    setAccessDates(profile.access_start, profile.access_end);
     const allowed = new Set(user.course_access.map((item) => item.course_id)); ui.accessList.querySelectorAll("input").forEach((input) => { input.checked = allowed.has(input.value); }); $("#userFormCard").open = true; $("#userFormCard").scrollIntoView({ behavior: "smooth" });
   }
   try {
@@ -321,6 +437,7 @@ ui.userList.addEventListener("click", async (event) => {
 
 (async function initAdminPortal() {
   refreshIcons();
+  initAccessDatePickers();
   try {
     adminClient = await window.DJAI_PORTAL.createPortalClient();
     adminSession = await window.DJAI_PORTAL.currentSession(adminClient);

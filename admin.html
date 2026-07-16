@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="elearning.css" />
   </head>
@@ -133,7 +134,34 @@
             <div class="management-grid users-grid">
               <div class="workspace-card"><div class="workspace-heading"><div><h3>ผู้ใช้งานทั้งหมด</h3><p id="userListSummary"></p></div><label class="mini-search"><i data-lucide="search"></i><input id="adminUserSearch" type="search" placeholder="ค้นหาชื่อหรืออีเมล" /></label></div><div class="admin-list" id="userAdminList"></div></div>
               <details class="workspace-card editor-card" id="userFormCard" open><summary><span><i data-lucide="user-cog"></i><strong>ข้อมูลและสิทธิ์ผู้ใช้</strong></span><i data-lucide="chevron-down"></i></summary>
-                <form class="portal-form compact-form" id="userForm"><input name="id" type="hidden" /><label class="field"><span>อีเมล *</span><input name="email" type="email" required /></label><label class="field"><span>ชื่อ-นามสกุล</span><input name="full_name" /></label><div class="form-grid two"><label class="field"><span>บทบาท</span><select name="role"><option value="student">Student</option><option value="admin">Admin</option></select></label><label class="field"><span>สถานะ</span><select name="is_active"><option value="true">ใช้งาน</option><option value="false">ระงับ</option></select></label></div><label class="field"><span>รหัสผ่าน</span><input name="password" type="password" placeholder="จำเป็นสำหรับผู้ใช้ใหม่" /></label><div class="form-grid two"><label class="field"><span>เริ่มใช้งาน</span><input name="access_start" type="datetime-local" /></label><label class="field"><span>สิ้นสุด</span><input name="access_end" type="datetime-local" /></label></div><div class="field"><span>คอร์สที่เข้าเรียนได้</span><div class="course-checkboxes" id="courseAccessList"></div></div><div class="form-actions"><button class="btn btn-primary" type="submit"><i data-lucide="save"></i> บันทึกผู้ใช้</button><button class="btn btn-secondary" id="clearUserForm" type="button">ล้างฟอร์ม</button></div></form>
+                <form class="portal-form compact-form" id="userForm">
+                  <input name="id" type="hidden" />
+                  <label class="field"><span>อีเมล *</span><input name="email" type="email" required /></label>
+                  <label class="field"><span>ชื่อ-นามสกุล</span><input name="full_name" /></label>
+                  <div class="form-grid two"><label class="field"><span>บทบาท</span><select name="role"><option value="student">Student</option><option value="admin">Admin</option></select></label><label class="field"><span>สถานะ</span><select name="is_active"><option value="true">ใช้งาน</option><option value="false">ระงับ</option></select></label></div>
+                  <label class="field"><span>รหัสผ่าน</span><input name="password" type="password" placeholder="จำเป็นสำหรับผู้ใช้ใหม่" /></label>
+                  <section class="access-period" aria-labelledby="accessPeriodTitle">
+                    <div class="access-period-heading">
+                      <div><span class="access-period-icon"><i data-lucide="calendar-range"></i></span><div><strong id="accessPeriodTitle">ระยะเวลาการใช้งาน</strong><small>กำหนดช่วงที่ผู้ใช้เข้าสู่ระบบและเรียนคอร์สได้</small></div></div>
+                      <select id="accessDuration" name="access_duration" aria-label="เลือกช่วงเวลาการใช้งาน">
+                        <option value="unlimited">ไม่จำกัดเวลา</option>
+                        <option value="30">30 วัน</option>
+                        <option value="90">90 วัน</option>
+                        <option value="180">6 เดือน</option>
+                        <option value="365">1 ปี</option>
+                        <option value="custom">กำหนดวันที่เอง</option>
+                      </select>
+                    </div>
+                    <div class="date-range-grid" id="dateRangeFields">
+                      <label class="field calendar-field"><span>วันที่เริ่มต้น</span><div class="date-input-shell"><i data-lucide="calendar-days"></i><input id="accessStart" name="access_start" type="text" placeholder="เลือกวันที่เริ่มต้น" /></div></label>
+                      <span class="date-range-arrow" aria-hidden="true"><i data-lucide="arrow-right"></i></span>
+                      <label class="field calendar-field"><span>วันที่สิ้นสุด</span><div class="date-input-shell"><i data-lucide="calendar-check"></i><input id="accessEnd" name="access_end" type="text" placeholder="เลือกวันที่สิ้นสุด" /></div></label>
+                    </div>
+                    <p class="access-period-hint" id="accessPeriodHint"><i data-lucide="infinity"></i> บัญชีนี้ใช้งานได้โดยไม่มีกำหนดวันสิ้นสุด</p>
+                  </section>
+                  <div class="field"><span>คอร์สที่เข้าเรียนได้</span><div class="course-checkboxes" id="courseAccessList"></div></div>
+                  <div class="form-actions"><button class="btn btn-primary" type="submit"><i data-lucide="save"></i> บันทึกผู้ใช้</button><button class="btn btn-secondary" id="clearUserForm" type="button">ล้างฟอร์ม</button></div>
+                </form>
               </details>
             </div>
           </section>
@@ -143,6 +171,8 @@
 
     <div class="portal-toast" id="portalToast" role="status" aria-live="polite"></div>
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/th.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="elearning-config.js"></script>
     <script src="admin.js"></script>

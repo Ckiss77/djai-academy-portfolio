@@ -355,6 +355,56 @@
 .form-actions { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 3px; }
 .form-actions .btn, .portal-form > .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
 .form-actions svg, .portal-form > .btn svg { width: 16px; }
+.access-period { display: grid; gap: 14px; border: 1px solid rgba(112, 193, 210, .16); border-radius: 7px; background: rgba(3, 9, 24, .48); padding: 14px; }
+.access-period-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.access-period-heading > div { display: flex; min-width: 0; align-items: center; gap: 10px; }
+.access-period-heading strong, .access-period-heading small { display: block; }
+.access-period-heading strong { font-size: .78rem; }
+.access-period-heading small { margin-top: 2px; color: var(--muted); font-size: .63rem; line-height: 1.4; }
+.access-period-heading select { width: 148px; min-height: 39px; flex: 0 0 auto; border: 1px solid rgba(39, 230, 255, .28); border-radius: 6px; background: #071126; color: var(--text); font-family: inherit; font-size: .7rem; font-weight: 600; padding: 8px 28px 8px 10px; outline: none; cursor: pointer; }
+.access-period-icon { display: grid; width: 34px; height: 34px; flex: 0 0 auto; place-items: center; border-radius: 6px; background: rgba(39, 230, 255, .08); color: var(--cyan); }
+.access-period-icon svg { width: 16px; }
+.date-range-grid { display: grid; grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr); align-items: end; gap: 8px; }
+.date-input-shell { position: relative; min-width: 0; }
+.date-input-shell > svg { position: absolute; top: 50%; left: 11px; z-index: 2; width: 16px; color: var(--cyan); transform: translateY(-50%); pointer-events: none; }
+.date-input-shell input,
+.date-input-shell .flatpickr-input + input { min-width: 0; padding-left: 37px; cursor: pointer; }
+.date-input-shell input:disabled { border-color: rgba(112, 193, 210, .1); background: rgba(4, 9, 22, .5); color: #60708e; cursor: not-allowed; }
+.date-range-arrow { display: grid; height: 43px; place-items: center; color: #60708e; }
+.date-range-arrow svg { width: 15px; }
+.access-period-hint { display: flex; align-items: center; gap: 7px; margin: -2px 0 0; color: #8596b4; font-size: .65rem; line-height: 1.45; }
+.access-period-hint svg { width: 14px; flex: 0 0 auto; color: var(--green); }
+
+/* Flatpickr is restyled to match the LMS admin workspace. */
+.flatpickr-calendar {
+  width: 306px;
+  border: 1px solid rgba(39, 230, 255, .28);
+  border-radius: 7px;
+  background: #091328;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, .48);
+  color: var(--text);
+  font-family: "Noto Sans Thai", "Sora", sans-serif;
+}
+.flatpickr-calendar.arrowTop::before { border-bottom-color: rgba(39, 230, 255, .28); }
+.flatpickr-calendar.arrowTop::after { border-bottom-color: #091328; }
+.flatpickr-months { border-bottom: 1px solid rgba(112, 193, 210, .14); padding: 5px 3px; }
+.flatpickr-months .flatpickr-month { height: 38px; color: var(--text); fill: var(--text); }
+.flatpickr-current-month { padding-top: 8px; font-size: .9rem; }
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year { color: var(--text); font-weight: 700; }
+.flatpickr-current-month .flatpickr-monthDropdown-months { background: #091328; }
+.flatpickr-current-month .flatpickr-monthDropdown-months:hover,
+.flatpickr-current-month input.cur-year:hover { background: rgba(39, 230, 255, .08); }
+.flatpickr-weekdays { background: rgba(255, 255, 255, .018); }
+span.flatpickr-weekday { background: transparent; color: #8192af; font-size: .66rem; }
+.flatpickr-days, .dayContainer { width: 304px; min-width: 304px; max-width: 304px; }
+.flatpickr-day { max-width: 43px; border-radius: 5px; color: #cbd7e8; }
+.flatpickr-day:hover, .flatpickr-day:focus { border-color: rgba(39, 230, 255, .18); background: rgba(39, 230, 255, .1); color: #fff; }
+.flatpickr-day.today { border-color: var(--green); color: var(--green); }
+.flatpickr-day.selected, .flatpickr-day.selected:hover { border-color: var(--cyan); background: var(--cyan); color: #03111a; font-weight: 800; }
+.flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay { color: #465570; }
+.flatpickr-months .flatpickr-prev-month, .flatpickr-months .flatpickr-next-month { color: #91a4c4; fill: #91a4c4; padding: 12px; }
+.flatpickr-months .flatpickr-prev-month:hover svg, .flatpickr-months .flatpickr-next-month:hover svg { fill: var(--cyan); }
 .category-chips { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 16px 16px; }
 .category-chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 6px; color: #cbd7ea; padding: 6px 8px; font-size: .7rem; }
 .category-chip > svg { width: 13px; color: var(--green); }
@@ -469,6 +519,10 @@
   .admin-tab { padding: 9px; }
   .admin-page-header h1 { font-size: 1.65rem; }
   .portal-toast { right: 12px; bottom: 12px; left: 12px; max-width: none; }
+  .access-period-heading { align-items: stretch; flex-direction: column; }
+  .access-period-heading select { width: 100%; }
+  .date-range-grid { grid-template-columns: 1fr; }
+  .date-range-arrow { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
