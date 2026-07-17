@@ -947,6 +947,22 @@ h1 {
   line-height: 1.45;
 }
 
+.credential-grid .education-credentials {
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.credential-grid .education-credentials span {
+  display: block;
+  margin: 0;
+  color: var(--text);
+  font-family: "Sora", "Noto Sans Thai", sans-serif;
+  font-size: inherit;
+  font-weight: 700;
+  text-transform: none;
+  white-space: nowrap;
+}
+
 .speaker-gallery {
   padding-top: 22px;
 }
