@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://djai.dc365.online/sitemap.xml

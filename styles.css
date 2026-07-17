@@ -905,6 +905,13 @@ h1 {
   font-weight: 700;
 }
 
+.speaker-thai-name {
+  margin: 4px 0 0;
+  color: var(--green) !important;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
 .speaker-cv-btn {
   margin-top: 22px;
   width: fit-content;
