@@ -130,12 +130,12 @@
         </div>
 
         <div class="portfolio-tabs" role="tablist" aria-label="Portfolio categories" data-reveal>
-          <button class="tab-button active" type="button" data-target="avatar" role="tab" aria-selected="true">AI Avatar</button>
+          <button class="tab-button active" type="button" data-target="website" role="tab" aria-selected="true">Website</button>
+          <button class="tab-button" type="button" data-target="avatar" role="tab" aria-selected="false">AI Avatar</button>
           <button class="tab-button tab-button-locked" type="button" data-target="cinematic" role="tab" aria-selected="false" aria-describedby="cinematicAccessHint">AI VDO Cinematic</button>
-          <button class="tab-button" type="button" data-target="website" role="tab" aria-selected="false">Website</button>
         </div>
 
-        <div class="portfolio-panel active" id="avatar" role="tabpanel">
+        <div class="portfolio-panel" id="avatar" role="tabpanel" hidden>
           <a class="work-card" href="https://youtube.com/shorts/qsp_S1Ct8fg" target="_blank" rel="noreferrer" data-reveal>
             <div class="work-preview"><img src="assets/previews/01-avatar-a-multi-language.png" alt="Preview of AVATAR - A Multi-Language" loading="lazy" /></div>
             <span>Shorts</span>
@@ -219,7 +219,7 @@
           </a>
         </div>
 
-        <div class="portfolio-panel" id="website" role="tabpanel" hidden>
+        <div class="portfolio-panel active" id="website" role="tabpanel">
           <a class="work-card" href="https://roof.kusolutions.co/" target="_blank" rel="noreferrer" data-reveal>
             <div class="work-preview"><img src="assets/previews/14-roof-ku-solutions.png" alt="Preview of Roof KU Solutions" loading="lazy" /></div>
             <span>Website</span>
