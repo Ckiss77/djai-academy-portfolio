@@ -46,14 +46,6 @@ if (siteHeader && navToggle && mainNavigation) {
 
 const tabs = document.querySelectorAll(".tab-button");
 const panels = document.querySelectorAll(".portfolio-panel");
-const cinematicPasscodeDialog = document.getElementById("cinematicPasscodeDialog");
-const cinematicPasscodeForm = document.getElementById("cinematicPasscodeForm");
-const cinematicPasscodeInput = document.getElementById("cinematicPasscodeInput");
-const cinematicPasscodeError = document.getElementById("cinematicPasscodeError");
-const cinematicPasscodeCancel = document.getElementById("cinematicPasscodeCancel");
-const cinematicPasscode = "1111";
-const cinematicUnlockKey = "djai-cinematic-unlocked";
-let pendingProtectedTab = null;
 
 function showPortfolioTab(tab) {
   const target = tab.dataset.target;
@@ -71,55 +63,9 @@ function showPortfolioTab(tab) {
   });
 }
 
-function cinematicIsUnlocked() {
-  return window.sessionStorage.getItem(cinematicUnlockKey) === "true";
-}
-
-function openCinematicPasscodeDialog(tab) {
-  pendingProtectedTab = tab;
-  cinematicPasscodeForm.reset();
-  cinematicPasscodeError.textContent = "";
-  cinematicPasscodeDialog.showModal();
-  window.setTimeout(() => cinematicPasscodeInput.focus(), 0);
-}
-
 tabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    if (tab.dataset.target === "cinematic" && !cinematicIsUnlocked()) {
-      openCinematicPasscodeDialog(tab);
-      return;
-    }
-
-    showPortfolioTab(tab);
-  });
+  tab.addEventListener("click", () => showPortfolioTab(tab));
 });
-
-if (cinematicPasscodeForm) {
-  cinematicPasscodeForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    if (cinematicPasscodeInput.value !== cinematicPasscode) {
-      cinematicPasscodeError.textContent = "Passcode is incorrect. Please try again.";
-      cinematicPasscodeInput.select();
-      return;
-    }
-
-    window.sessionStorage.setItem(cinematicUnlockKey, "true");
-    const protectedTab = pendingProtectedTab;
-    cinematicPasscodeDialog.close();
-    if (protectedTab) showPortfolioTab(protectedTab);
-    pendingProtectedTab = null;
-  });
-
-  cinematicPasscodeCancel.addEventListener("click", () => {
-    cinematicPasscodeDialog.close();
-    pendingProtectedTab = null;
-  });
-
-  cinematicPasscodeDialog.addEventListener("close", () => {
-    pendingProtectedTab = null;
-  });
-}
 
 const cvDownloadButton = document.querySelector("[data-cv-download]");
 

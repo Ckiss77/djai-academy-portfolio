@@ -182,7 +182,7 @@
         <div class="portfolio-tabs" role="tablist" aria-label="Portfolio categories" data-reveal>
           <button class="tab-button active" type="button" data-target="website" role="tab" aria-selected="true">Website</button>
           <button class="tab-button" type="button" data-target="avatar" role="tab" aria-selected="false">AI Avatar</button>
-          <button class="tab-button tab-button-locked" type="button" data-target="cinematic" role="tab" aria-selected="false" aria-describedby="cinematicAccessHint">AI VDO Cinematic</button>
+          <button class="tab-button" type="button" data-target="cinematic" role="tab" aria-selected="false">AI VDO Cinematic</button>
         </div>
 
         <div class="portfolio-panel" id="avatar" role="tabpanel" hidden>
@@ -337,7 +337,6 @@
             <p>Corporate website for services, credibility, and conversion.</p>
           </a>
         </div>
-        <span class="sr-only" id="cinematicAccessHint">AI VDO Cinematic requires an access passcode.</span>
       </section>
 
       <section class="section speaker" id="speaker">
@@ -551,24 +550,6 @@
         </div>
       </section>
     </main>
-
-    <dialog class="portfolio-passcode-dialog" id="cinematicPasscodeDialog" aria-labelledby="cinematicPasscodeTitle">
-      <form class="passcode-dialog-card" id="cinematicPasscodeForm" method="dialog">
-        <div class="passcode-dialog-icon" aria-hidden="true">04</div>
-        <p class="eyebrow">Restricted Showcase</p>
-        <h2 id="cinematicPasscodeTitle">Enter access passcode</h2>
-        <p>กรอกรหัสเพื่อดูผลงาน AI VDO Cinematic</p>
-        <label class="passcode-field">
-          <span class="sr-only">Passcode</span>
-          <input id="cinematicPasscodeInput" type="password" inputmode="numeric" autocomplete="one-time-code" maxlength="4" pattern="[0-9]{4}" placeholder="0000" required />
-        </label>
-        <p class="passcode-error" id="cinematicPasscodeError" role="alert"></p>
-        <div class="passcode-dialog-actions">
-          <button class="btn btn-secondary" id="cinematicPasscodeCancel" type="button">Cancel</button>
-          <button class="btn btn-primary" type="submit">Unlock showcase</button>
-        </div>
-      </form>
-    </dialog>
 
     <footer class="footer">
       <span>DJAI Academy</span>
