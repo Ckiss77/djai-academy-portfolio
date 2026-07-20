@@ -502,6 +502,14 @@ h1 {
   padding: 84px 0;
 }
 
+.speaker {
+  padding-bottom: 40px;
+}
+
+.timeline {
+  padding-top: 36px;
+}
+
 .section-heading {
   max-width: 780px;
   margin-bottom: 34px;
@@ -1260,6 +1268,14 @@ h1 {
   .section {
     width: min(100% - 32px, 1120px);
     padding: 58px 0;
+  }
+
+  .speaker {
+    padding-bottom: 30px;
+  }
+
+  .timeline {
+    padding-top: 28px;
   }
 
   .service-card,
