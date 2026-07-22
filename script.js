@@ -96,7 +96,7 @@ function updateFooterVisitorCount() {
   const counter = document.getElementById("footerVisitorCount");
   if (!counter) return;
 
-  fetch("/.netlify/functions/analytics-counter")
+  fetch("/.netlify/functions/analytics-track?summary=1")
     .then((response) => response.ok ? response.json() : Promise.reject())
     .then(({ visitors }) => {
       counter.textContent = new Intl.NumberFormat("en-US").format(Number(visitors || 0));
