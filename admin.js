@@ -12,6 +12,9 @@ const ui = {
   courseSearch: $("#adminCourseSearch"), userSearch: $("#adminUserSearch"), contentFilter: $("#contentCourseFilter"),
   switchAccount: $("#switchAdminAccount"), accessDuration: $("#accessDuration"),
   accessStart: $("#accessStart"), accessEnd: $("#accessEnd"), accessPeriodHint: $("#accessPeriodHint"),
+  analyticsRange: $("#analyticsRange"), analyticsStatus: $("#analyticsStatus"), analyticsChart: $("#analyticsChart"),
+  analyticsPages: $("#analyticsPages"), analyticsSources: $("#analyticsSources"), analyticsDevices: $("#analyticsDevices"),
+  analyticsVisitors: $("#analyticsVisitors"), analyticsViews: $("#analyticsViews"), analyticsReturning: $("#analyticsReturning"), analyticsToday: $("#analyticsToday"),
 };
 
 let adminClient;
@@ -21,6 +24,7 @@ let accessStartPicker;
 let accessEndPicker;
 let courseData = { categories: [], courses: [], videos: [], documents: [] };
 let userData = { users: [], courses: [] };
+let analyticsData = null;
 
 function refreshIcons() { window.lucide?.createIcons({ attrs: { "stroke-width": 1.8 } }); }
 function escapeHtml(value) { const node = document.createElement("div"); node.textContent = String(value ?? ""); return node.innerHTML; }
@@ -161,6 +165,7 @@ function showAdminView(view) {
 function clearSensitiveAdminState() {
   courseData = { categories: [], courses: [], videos: [], documents: [] };
   userData = { users: [], courses: [] };
+  analyticsData = null;
   ui.courseList.innerHTML = "";
   ui.categoryList.innerHTML = "";
   ui.contentList.innerHTML = "";
@@ -195,6 +200,7 @@ async function enterAdminPortal() {
   ui.avatar.textContent = (profile.full_name || profile.email || "A").charAt(0).toUpperCase();
   await loadAdminData();
   showAdminView("app");
+  loadAnalyticsData();
 }
 
 async function courseAction(action, payload, successMessage) {
@@ -220,6 +226,70 @@ async function loadAdminData() {
   renderAdmin();
   window.DJAI_PORTAL.setStatus(ui.status, "ข้อมูลเป็นปัจจุบัน", "ok");
   setTimeout(() => window.DJAI_PORTAL.setStatus(ui.status, ""), 2200);
+}
+
+function formatAnalyticsNumber(value) {
+  return new Intl.NumberFormat("en-US").format(Number(value || 0));
+}
+
+function analyticsDateLabel(value, index, total) {
+  const interval = total > 14 ? Math.ceil(total / 7) : 1;
+  if (index % interval !== 0 && index !== total - 1) return "";
+  return new Intl.DateTimeFormat("th-TH", { day: "numeric", month: "short" }).format(new Date(`${value}T00:00:00`));
+}
+
+function renderAnalyticsList(element, rows, labelKey, formatLabel = (value) => value) {
+  if (!element) return;
+  element.innerHTML = rows.length
+    ? rows.map((row) => {
+      const label = formatLabel(row[labelKey]);
+      return `<div class="analytics-list-row"><strong title="${escapeHtml(label)}">${escapeHtml(label)}</strong><span>${formatAnalyticsNumber(row.value)}</span></div>`;
+    }).join("")
+    : '<p class="analytics-empty">ยังไม่มีข้อมูลในช่วงเวลานี้</p>';
+}
+
+function renderAnalytics() {
+  if (!analyticsData) return;
+  const summary = analyticsData.summary || {};
+  ui.analyticsVisitors.textContent = formatAnalyticsNumber(summary.unique_visitors);
+  ui.analyticsViews.textContent = formatAnalyticsNumber(summary.page_views);
+  ui.analyticsReturning.textContent = formatAnalyticsNumber(summary.returning_visitors);
+  ui.analyticsToday.textContent = formatAnalyticsNumber(summary.views_today);
+
+  const daily = analyticsData.daily || [];
+  const maxViews = Math.max(...daily.map((item) => Number(item.views || 0)), 1);
+  ui.analyticsChart.style.gridTemplateColumns = `repeat(${Math.max(daily.length, 1)}, minmax(5px, 1fr))`;
+  ui.analyticsChart.innerHTML = daily.map((item, index) => {
+    const height = Math.max(5, Math.round((Number(item.views || 0) / maxViews) * 100));
+    return `<div class="analytics-bar" title="${escapeHtml(item.date)}: ${formatAnalyticsNumber(item.views)} views"><span class="analytics-bar-fill" style="height:${height}%"></span><small>${analyticsDateLabel(item.date, index, daily.length)}</small></div>`;
+  }).join("") || '<p class="analytics-empty">ยังไม่มีข้อมูลในช่วงเวลานี้</p>';
+
+  renderAnalyticsList(ui.analyticsPages, analyticsData.top_pages || [], "path");
+  renderAnalyticsList(ui.analyticsSources, analyticsData.referrers || [], "source", (value) => value === "direct" ? "Direct" : value);
+  renderAnalyticsList(ui.analyticsDevices, analyticsData.devices || [], "device", (value) => ({ desktop: "Desktop", mobile: "Mobile", tablet: "Tablet" })[value] || value);
+  refreshIcons();
+}
+
+function setAnalyticsEmptyState() {
+  [ui.analyticsVisitors, ui.analyticsViews, ui.analyticsReturning, ui.analyticsToday].forEach((element) => { if (element) element.textContent = "-"; });
+  [ui.analyticsChart, ui.analyticsPages, ui.analyticsSources, ui.analyticsDevices].forEach((element) => {
+    if (element) element.innerHTML = '<p class="analytics-empty">ยังไม่มีข้อมูล Analytics กรุณาตั้งค่าฐานข้อมูลก่อน</p>';
+  });
+}
+
+async function loadAnalyticsData() {
+  if (!ui.analyticsRange) return;
+  window.DJAI_PORTAL.setStatus(ui.analyticsStatus, "กำลังโหลดข้อมูล Analytics...");
+  try {
+    analyticsData = await api(`/.netlify/functions/analytics-report?days=${ui.analyticsRange.value}`);
+    renderAnalytics();
+    const updated = new Intl.DateTimeFormat("th-TH", { dateStyle: "medium", timeStyle: "short" }).format(new Date(analyticsData.generated_at));
+    window.DJAI_PORTAL.setStatus(ui.analyticsStatus, `อัปเดตล่าสุด ${updated}`, "ok");
+  } catch (error) {
+    analyticsData = null;
+    setAnalyticsEmptyState();
+    window.DJAI_PORTAL.setStatus(ui.analyticsStatus, error.message || "ยังไม่สามารถโหลดข้อมูล Analytics ได้", "error");
+  }
 }
 
 function renderMetrics() {
@@ -299,6 +369,7 @@ function clearUser() {
 
 const pageMeta = {
   overview: ["ภาพรวมระบบ", "ตรวจสอบคอร์ส เนื้อหา และผู้ใช้งานทั้งหมด"],
+  analytics: ["Website Analytics", "วิเคราะห์ผู้เข้าชม หน้าเว็บไซต์ แหล่งที่มา และอุปกรณ์"],
   courses: ["จัดการคอร์ส", "สร้างและจัดระเบียบหลักสูตรของ DJAI Academy"],
   content: ["จัดการเนื้อหา", "เพิ่มวิดีโอและเอกสารประกอบในแต่ละคอร์ส"],
   users: ["จัดการผู้เรียน", "ควบคุมบัญชี สิทธิ์ และช่วงเวลาการเข้าใช้"],
@@ -310,6 +381,7 @@ function switchTab(name) {
   $(`#${name}Panel`)?.classList.add("active");
   $("#adminPageTitle").textContent = pageMeta[name][0];
   $("#adminPageDescription").textContent = pageMeta[name][1];
+  if (name === "analytics") loadAnalyticsData();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -321,6 +393,7 @@ ui.courseSearch.addEventListener("input", renderCourses);
 ui.userSearch.addEventListener("input", renderUsers);
 ui.contentFilter.addEventListener("change", renderContent);
 ui.accessDuration.addEventListener("change", () => applyAccessDuration(ui.accessDuration.value));
+ui.analyticsRange?.addEventListener("change", loadAnalyticsData);
 ui.documentForm.elements.file.addEventListener("change", () => { $("#selectedFileName").textContent = ui.documentForm.elements.file.files[0]?.name || "ยังไม่ได้เลือกไฟล์"; });
 
 ui.loginForm.addEventListener("submit", async (event) => {

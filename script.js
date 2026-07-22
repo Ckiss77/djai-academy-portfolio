@@ -44,6 +44,56 @@ if (siteHeader && navToggle && mainNavigation) {
   });
 }
 
+function analyticsVisitorId() {
+  const storageKey = "djai-analytics-visitor";
+  const existing = window.localStorage.getItem(storageKey);
+  if (existing) return existing;
+
+  const bytes = crypto.getRandomValues(new Uint8Array(16));
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const hex = [...bytes].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+  const visitorId = `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+  window.localStorage.setItem(storageKey, visitorId);
+  return visitorId;
+}
+
+function analyticsDeviceType() {
+  const width = window.innerWidth;
+  if (width <= 767) return "mobile";
+  if (width <= 1024) return "tablet";
+  return "desktop";
+}
+
+function analyticsReferrerDomain() {
+  if (!document.referrer) return "direct";
+  try {
+    const host = new URL(document.referrer).hostname;
+    return host === window.location.hostname ? "direct" : host;
+  } catch (error) {
+    return "direct";
+  }
+}
+
+function trackWebsiteVisit() {
+  if (document.body.classList.contains("portal-body") || navigator.doNotTrack === "1") return;
+
+  fetch("/.netlify/functions/analytics-track", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    keepalive: true,
+    body: JSON.stringify({
+      visitor_id: analyticsVisitorId(),
+      page_path: window.location.pathname,
+      referrer_domain: analyticsReferrerDomain(),
+      device_type: analyticsDeviceType(),
+      language: navigator.language,
+    }),
+  }).catch(() => {});
+}
+
+trackWebsiteVisit();
+
 const tabs = document.querySelectorAll(".tab-button");
 const panels = document.querySelectorAll(".portfolio-panel");
 

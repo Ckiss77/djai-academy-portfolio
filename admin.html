@@ -70,6 +70,7 @@
             <button class="admin-tab" data-admin-tab="courses" type="button"><i data-lucide="library-big"></i><span>คอร์ส</span></button>
             <button class="admin-tab" data-admin-tab="content" type="button"><i data-lucide="list-video"></i><span>เนื้อหา</span></button>
             <button class="admin-tab" data-admin-tab="users" type="button"><i data-lucide="users"></i><span>ผู้เรียน</span></button>
+            <button class="admin-tab" data-admin-tab="analytics" type="button"><i data-lucide="chart-no-axes-combined"></i><span>Analytics</span></button>
           </nav>
           <div class="admin-guide"><i data-lucide="circle-help"></i><p><strong>ลำดับแนะนำ</strong>สร้างหมวดหมู่และคอร์ส จากนั้นเพิ่มวิดีโอ/เอกสาร แล้วจึงกำหนดสิทธิ์ให้ผู้เรียน</p></div>
         </aside>
@@ -94,6 +95,29 @@
                 <button data-go-tab="users" type="button"><span>3</span><div><strong>ให้สิทธิ์ผู้เรียน</strong><small>เลือกคอร์สและช่วงเวลาการใช้งาน</small></div><i data-lucide="chevron-right"></i></button>
               </div></article>
               <article class="workspace-card"><div class="workspace-heading"><div><h2>คอร์สล่าสุด</h2><p>สถานะคอร์สในระบบ</p></div><button class="text-button" data-go-tab="courses" type="button">ดูทั้งหมด</button></div><div class="compact-list" id="recentCourseList"></div></article>
+            </div>
+          </section>
+
+          <section class="admin-panel" id="analyticsPanel">
+            <div class="admin-section-toolbar analytics-toolbar">
+              <div><h2>Website Analytics</h2><p>สรุปผู้เข้าชมแบบไม่ระบุตัวตนจากเว็บไซต์ DJAI Academy</p></div>
+              <label class="analytics-range"><span>ช่วงเวลา</span><select id="analyticsRange"><option value="7">7 วันล่าสุด</option><option value="30" selected>30 วันล่าสุด</option><option value="90">90 วันล่าสุด</option></select></label>
+            </div>
+            <p class="portal-status" id="analyticsStatus" role="status"></p>
+            <div class="analytics-metric-grid">
+              <article><span><i data-lucide="users-round"></i></span><div><strong id="analyticsVisitors">-</strong><small>ผู้เข้าชมไม่ซ้ำ</small></div></article>
+              <article><span><i data-lucide="mouse-pointer-click"></i></span><div><strong id="analyticsViews">-</strong><small>Page views</small></div></article>
+              <article><span><i data-lucide="rotate-ccw"></i></span><div><strong id="analyticsReturning">-</strong><small>กลับมาเข้าชม</small></div></article>
+              <article><span><i data-lucide="calendar-days"></i></span><div><strong id="analyticsToday">-</strong><small>Views วันนี้</small></div></article>
+            </div>
+            <div class="analytics-grid">
+              <article class="workspace-card analytics-trend-card">
+                <div class="workspace-heading"><div><h3>Traffic trend</h3><p>จำนวน page views ในแต่ละวัน</p></div></div>
+                <div class="analytics-chart" id="analyticsChart" aria-label="Traffic trend chart"></div>
+              </article>
+              <article class="workspace-card analytics-list-card"><div class="workspace-heading"><div><h3>Top pages</h3><p>หน้าที่ถูกเข้าชมมากที่สุด</p></div></div><div class="analytics-list" id="analyticsPages"></div></article>
+              <article class="workspace-card analytics-list-card"><div class="workspace-heading"><div><h3>Traffic sources</h3><p>แหล่งที่มาของผู้เข้าชม</p></div></div><div class="analytics-list" id="analyticsSources"></div></article>
+              <article class="workspace-card analytics-list-card"><div class="workspace-heading"><div><h3>Devices</h3><p>อุปกรณ์ที่ใช้เข้าชม</p></div></div><div class="analytics-list" id="analyticsDevices"></div></article>
             </div>
           </section>
 

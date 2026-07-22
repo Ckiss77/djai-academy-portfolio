@@ -316,6 +316,28 @@
 .metric-grid article > div { display: grid; }
 .metric-grid strong { font: 700 1.35rem "Sora",sans-serif; }
 .metric-grid small { color: var(--muted); font-size: .68rem; }
+.analytics-toolbar { align-items: flex-end; }
+.analytics-range { display: grid; gap: 6px; min-width: 150px; color: var(--muted); font-size: .72rem; font-weight: 700; }
+.analytics-range select { min-height: 40px; border: 1px solid var(--line); border-radius: 6px; background: #060c1d; color: var(--text); font: inherit; padding: 8px 10px; }
+.analytics-metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.analytics-metric-grid article { display: flex; align-items: center; gap: 13px; border: 1px solid var(--line); border-radius: 7px; background: rgba(9,17,37,.82); padding: 16px; }
+.analytics-metric-grid article > span { display: grid; width: 38px; height: 38px; place-items: center; border-radius: 6px; background: rgba(85,255,203,.08); color: var(--green); }
+.analytics-metric-grid svg { width: 18px; }
+.analytics-metric-grid article > div { display: grid; min-width: 0; }
+.analytics-metric-grid strong { font: 700 1.35rem "Sora",sans-serif; }
+.analytics-metric-grid small { color: var(--muted); font-size: .68rem; }
+.analytics-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(240px, .7fr); gap: 16px; }
+.analytics-trend-card { grid-row: span 2; }
+.analytics-chart { display: grid; min-height: 260px; grid-template-columns: repeat(7, minmax(0, 1fr)); align-items: end; gap: 8px; padding: 16px 2px 0; border-top: 1px solid rgba(112,193,210,.12); }
+.analytics-bar { display: grid; min-width: 0; height: 100%; grid-template-rows: 1fr auto; align-items: end; gap: 8px; }
+.analytics-bar-fill { min-height: 5px; border-radius: 4px 4px 1px 1px; background: linear-gradient(180deg, var(--green), var(--cyan)); box-shadow: 0 0 18px rgba(39,230,255,.22); }
+.analytics-bar small { overflow: hidden; color: var(--muted); font-size: .62rem; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+.analytics-list { display: grid; gap: 10px; }
+.analytics-list-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding-bottom: 10px; border-bottom: 1px solid rgba(112,193,210,.12); }
+.analytics-list-row:last-child { padding-bottom: 0; border-bottom: 0; }
+.analytics-list-row strong { overflow: hidden; color: #dce9f8; font-size: .82rem; text-overflow: ellipsis; white-space: nowrap; }
+.analytics-list-row span { color: var(--cyan); font: 700 .78rem "Sora",sans-serif; }
+.analytics-empty { margin: 0; color: var(--muted); font-size: .82rem; }
 .admin-overview-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px; }
 .workspace-card { padding: 18px; }
 .workspace-heading { margin-bottom: 15px; }
@@ -472,7 +494,9 @@ span.flatpickr-weekday { background: transparent; color: #8192af; font-size: .66
 
 @media (max-width: 1180px) {
   .course-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .metric-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .metric-grid, .analytics-metric-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .analytics-grid { grid-template-columns: 1fr; }
+  .analytics-trend-card { grid-row: auto; }
   .management-grid { grid-template-columns: 1fr; }
   .editor-stack, .users-grid > .editor-card { max-width: 720px; }
 }
@@ -509,7 +533,9 @@ span.flatpickr-weekday { background: transparent; color: #8192af; font-size: .66
   .course-controls { display: grid; width: 100%; grid-template-columns: 1fr; }
   .search-field input, .course-controls select { width: 100%; }
   .course-grid { grid-template-columns: 1fr; }
-  .form-grid.two, .metric-grid { grid-template-columns: 1fr; }
+  .form-grid.two, .metric-grid, .analytics-metric-grid { grid-template-columns: 1fr; }
+  .analytics-toolbar { align-items: stretch; }
+  .analytics-range { width: 100%; }
   .course-heading h2 { font-size: 1.75rem; }
   .course-progress-label { align-self: flex-start; }
   .workspace-heading .mini-search, .workspace-heading select { width: 100%; }
