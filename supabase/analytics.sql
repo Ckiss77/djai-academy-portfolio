@@ -20,5 +20,16 @@ alter table public.website_visits enable row level security;
 grant usage on schema public to service_role;
 grant all on public.website_visits to service_role;
 
+create or replace function public.website_visitor_count()
+returns bigint
+language sql
+stable
+as $$
+  select count(distinct visitor_id) from public.website_visits;
+$$;
+
+revoke all on function public.website_visitor_count() from public;
+grant execute on function public.website_visitor_count() to service_role;
+
 -- There are intentionally no anon/authenticated policies. Website events are
 -- accepted only through the Netlify Function, while reports require admin auth.

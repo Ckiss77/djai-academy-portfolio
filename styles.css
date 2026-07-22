@@ -1144,6 +1144,17 @@ h1 {
   padding: 26px 0 34px;
 }
 
+.footer-brand {
+  display: grid;
+  gap: 4px;
+}
+
+.footer-visitor-count {
+  color: var(--cyan);
+  font: 700 0.92rem "Sora", sans-serif;
+  letter-spacing: 0.02em;
+}
+
 [data-reveal] {
   opacity: 0;
   transform: translateY(18px);

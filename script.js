@@ -76,9 +76,9 @@ function analyticsReferrerDomain() {
 }
 
 function trackWebsiteVisit() {
-  if (document.body.classList.contains("portal-body") || navigator.doNotTrack === "1") return;
+  if (document.body.classList.contains("portal-body") || navigator.doNotTrack === "1") return Promise.resolve();
 
-  fetch("/.netlify/functions/analytics-track", {
+  return fetch("/.netlify/functions/analytics-track", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     keepalive: true,
@@ -92,7 +92,20 @@ function trackWebsiteVisit() {
   }).catch(() => {});
 }
 
-trackWebsiteVisit();
+function updateFooterVisitorCount() {
+  const counter = document.getElementById("footerVisitorCount");
+  if (!counter) return;
+
+  fetch("/.netlify/functions/analytics-counter")
+    .then((response) => response.ok ? response.json() : Promise.reject())
+    .then(({ visitors }) => {
+      counter.textContent = new Intl.NumberFormat("en-US").format(Number(visitors || 0));
+      counter.setAttribute("aria-label", `${counter.textContent} website visitors`);
+    })
+    .catch(() => { counter.textContent = "—"; });
+}
+
+trackWebsiteVisit().finally(updateFooterVisitorCount);
 
 const tabs = document.querySelectorAll(".tab-button");
 const panels = document.querySelectorAll(".portfolio-panel");
