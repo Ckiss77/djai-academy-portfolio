@@ -3,9 +3,11 @@ import { resolve } from "node:path";
 
 const root = resolve(import.meta.dirname);
 const dist = resolve(root, "dist");
+const client = resolve(dist, "client");
 
 await rm(dist, { recursive: true, force: true });
 await mkdir(resolve(dist, "server"), { recursive: true });
+await mkdir(client, { recursive: true });
 
 for (const entry of [
   "index.html",
@@ -16,7 +18,7 @@ for (const entry of [
   "robots.txt",
   "sitemap.xml",
 ]) {
-  await cp(resolve(root, entry), resolve(dist, entry), { recursive: true });
+  await cp(resolve(root, entry), resolve(client, entry), { recursive: true });
 }
 
 await writeFile(resolve(dist, "server/index.js"), `
