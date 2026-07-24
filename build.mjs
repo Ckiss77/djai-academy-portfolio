@@ -1,11 +1,10 @@
-import { cp, mkdir, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const root = resolve(import.meta.dirname);
 const dist = resolve(root, "dist");
 const client = resolve(dist, "client");
 
-await rm(dist, { recursive: true, force: true });
 await mkdir(resolve(dist, "server"), { recursive: true });
 await mkdir(client, { recursive: true });
 
