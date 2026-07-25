@@ -24,12 +24,44 @@ create or replace function public.website_visitor_count()
 returns bigint
 language sql
 stable
+security definer
+set search_path = public
 as $$
   select count(distinct visitor_id) from public.website_visits;
 $$;
 
 revoke all on function public.website_visitor_count() from public;
 grant execute on function public.website_visitor_count() to service_role;
+grant execute on function public.website_visitor_count() to anon;
+
+create or replace function public.website_record_visit(
+  p_visitor_id uuid,
+  p_page_path text default '/',
+  p_referrer_domain text default 'direct',
+  p_device_type text default 'desktop',
+  p_language text default 'unknown'
+)
+returns bigint
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  insert into public.website_visits (visitor_id, page_path, referrer_domain, device_type, language)
+  values (
+    p_visitor_id,
+    left(case when p_page_path like '/%' then p_page_path else '/' end, 180),
+    left(coalesce(p_referrer_domain, 'direct'), 120),
+    case when p_device_type in ('desktop', 'mobile', 'tablet') then p_device_type else 'desktop' end,
+    left(coalesce(p_language, 'unknown'), 18)
+  );
+  return public.website_visitor_count();
+end;
+$$;
+
+revoke all on function public.website_record_visit(uuid, text, text, text, text) from public;
+grant execute on function public.website_record_visit(uuid, text, text, text, text) to anon;
+grant execute on function public.website_record_visit(uuid, text, text, text, text) to service_role;
 
 -- There are intentionally no anon/authenticated policies. Website events are
 -- accepted only through the Netlify Function, while reports require admin auth.

@@ -75,7 +75,7 @@ function analyticsReferrerDomain() {
   }
 }
 
-const analyticsEndpoint = "https://djai-academy.netlify.app/.netlify/functions/analytics-track";
+const analyticsEndpoint = "/api/analytics/track";
 
 function trackWebsiteVisit() {
   if (document.body.classList.contains("portal-body") || navigator.doNotTrack === "1") return Promise.resolve();
@@ -98,7 +98,7 @@ function updateFooterVisitorCount() {
   const counter = document.getElementById("footerVisitorCount");
   if (!counter) return;
 
-  fetch(`${analyticsEndpoint}?summary=1`)
+  fetch("/api/analytics/count")
     .then((response) => response.ok ? response.json() : Promise.reject())
     .then(({ visitors }) => {
       counter.textContent = new Intl.NumberFormat("en-US").format(Number(visitors || 0));
