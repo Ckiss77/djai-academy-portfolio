@@ -655,6 +655,20 @@ h1 {
   display: none;
 }
 
+.training-panel {
+  display: block;
+  margin-top: 22px;
+}
+
+.training-panel .section-heading {
+  max-width: 780px;
+  margin-bottom: 26px;
+}
+
+.training-panel .speaker-gallery-grid {
+  margin-top: 0;
+}
+
 .work-card {
   position: relative;
   min-height: 360px;
