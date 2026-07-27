@@ -355,6 +355,7 @@ h1 {
 .hero-brand-lockup img {
   position: relative;
   z-index: 1;
+  display: block;
   width: 100%;
   filter:
     drop-shadow(0 0 22px rgba(39, 230, 255, 0.2))
@@ -1282,12 +1283,16 @@ h1 {
   .hero {
     min-height: auto;
     width: min(100% - 32px, 1120px);
-    padding: 116px 0 50px;
+    padding: 116px 0 0;
   }
 
   .hero-brand-lockup {
     width: 100%;
-    margin: -10px 0 18px;
+    margin: -10px 0 0;
+  }
+
+  .hero::after {
+    height: 0;
   }
 
   .hero-stats,
