@@ -109,6 +109,13 @@ function updateFooterVisitorCount() {
 
 trackWebsiteVisit().finally(updateFooterVisitorCount);
 
+// Keep the Training gallery in the same layout container as the portfolio tabs.
+const trainingPanel = document.querySelector("#training");
+const portfolioSection = document.querySelector("#portfolio");
+if (trainingPanel && portfolioSection) {
+  portfolioSection.append(trainingPanel);
+}
+
 const tabs = document.querySelectorAll(".tab-button");
 const panels = document.querySelectorAll(".portfolio-panel");
 

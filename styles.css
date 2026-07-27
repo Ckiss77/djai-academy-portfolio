@@ -657,6 +657,7 @@ h1 {
 
 .training-panel {
   display: block;
+  width: 100%;
   margin-top: 22px;
 }
 
