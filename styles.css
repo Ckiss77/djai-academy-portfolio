@@ -626,6 +626,10 @@ h1 {
   margin-bottom: 18px;
 }
 
+.portfolio {
+  scroll-margin-top: 96px;
+}
+
 .tab-button {
   border: 1px solid var(--line);
   border-radius: 7px;

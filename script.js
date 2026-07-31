@@ -147,6 +147,9 @@ const sharedPortfolioTab = window.location.hash.replace("#portfolio-", "");
 const sharedTab = Array.from(tabs).find((tab) => tab.dataset.target === sharedPortfolioTab);
 if (sharedTab) {
   showPortfolioTab(sharedTab, false);
+  requestAnimationFrame(() => {
+    portfolioSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
 }
 
 const cvDownloadButton = document.querySelector("[data-cv-download]");
