@@ -119,7 +119,7 @@ if (trainingPanel && portfolioSection) {
 const tabs = document.querySelectorAll(".tab-button");
 const panels = document.querySelectorAll(".portfolio-panel");
 
-function showPortfolioTab(tab) {
+function showPortfolioTab(tab, updateUrl = true) {
   const target = tab.dataset.target;
 
   tabs.forEach((button) => {
@@ -133,11 +133,21 @@ function showPortfolioTab(tab) {
     panel.classList.toggle("active", isActive);
     panel.hidden = !isActive;
   });
+
+  if (updateUrl) {
+    window.history.replaceState(null, "", `#portfolio-${target}`);
+  }
 }
 
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => showPortfolioTab(tab));
 });
+
+const sharedPortfolioTab = window.location.hash.replace("#portfolio-", "");
+const sharedTab = Array.from(tabs).find((tab) => tab.dataset.target === sharedPortfolioTab);
+if (sharedTab) {
+  showPortfolioTab(sharedTab, false);
+}
 
 const cvDownloadButton = document.querySelector("[data-cv-download]");
 
