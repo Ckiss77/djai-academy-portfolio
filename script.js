@@ -152,6 +152,69 @@ if (sharedTab) {
   });
 }
 
+const aiConcierge = document.querySelector("#aiConcierge");
+const aiLauncher = document.querySelector(".ai-concierge-launcher");
+const aiClose = document.querySelector(".ai-concierge-close");
+const aiForm = document.querySelector(".ai-concierge-form");
+const aiInput = document.querySelector("#aiConciergeInput");
+const aiLog = document.querySelector(".ai-chat-log");
+
+function setAiConciergeOpen(isOpen) {
+  if (!aiConcierge || !aiLauncher) return;
+  aiConcierge.classList.toggle("is-open", isOpen);
+  aiConcierge.setAttribute("aria-hidden", String(!isOpen));
+  aiLauncher.setAttribute("aria-expanded", String(isOpen));
+  if (isOpen) window.setTimeout(() => aiInput?.focus(), 180);
+}
+
+function addAiMessage(text, role) {
+  const message = document.createElement("div");
+  message.className = `ai-message ai-message-${role}`;
+  message.textContent = text;
+  aiLog?.append(message);
+  if (aiLog) aiLog.scrollTop = aiLog.scrollHeight;
+}
+
+if (aiLauncher && aiConcierge) {
+  aiLauncher.addEventListener("click", () => setAiConciergeOpen(!aiConcierge.classList.contains("is-open")));
+  aiClose?.addEventListener("click", () => setAiConciergeOpen(false));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setAiConciergeOpen(false);
+  });
+}
+
+document.querySelectorAll(".ai-suggested-prompts button").forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!aiInput) return;
+    aiInput.value = button.textContent;
+    aiInput.focus();
+  });
+});
+
+aiForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const message = aiInput?.value.trim();
+  const submit = aiForm.querySelector("button[type=submit]");
+  if (!message || !submit) return;
+  addAiMessage(message, "user");
+  aiInput.value = "";
+  submit.disabled = true;
+  try {
+    const response = await fetch("/api/ai/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message }),
+    });
+    const result = await response.json();
+    addAiMessage(response.ok ? result.answer : (result.message || "AI Concierge is unavailable."), "bot");
+  } catch (error) {
+    addAiMessage("AI Concierge is temporarily unavailable. Please try again shortly.", "bot");
+  } finally {
+    submit.disabled = false;
+    aiInput.focus();
+  }
+});
+
 const cvDownloadButton = document.querySelector("[data-cv-download]");
 
 if (cvDownloadButton) {
