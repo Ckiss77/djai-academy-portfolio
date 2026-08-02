@@ -77,7 +77,7 @@ export default {
           method: "POST",
           headers: { "Content-Type": "application/json", Authorization: "Bearer " + env.OKMD_API_KEY },
           body: JSON.stringify({
-            model: "gemini-3.5-flash",
+            model: "gemini-2.5-flash-lite",
             messages: [
               { role: "system", content: "You are DJAI AI Concierge for DJAI Academy. Answer clearly and professionally in the user's language. Use only this context: DJAI Academy provides AI training, executive workshops, digital transformation consulting, AI adoption, data intelligence, AI avatar communication, AI cinematic video production, and web application experiences. If asked about a specific portfolio item, explain its likely creative or business value without inventing private facts. Keep answers concise and useful." },
               { role: "user", content: message },
