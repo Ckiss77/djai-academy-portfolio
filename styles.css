@@ -1392,6 +1392,11 @@ h1 {
   cursor: wait;
 }
 
+.ai-concierge-launcher,
+.ai-concierge {
+  display: none !important;
+}
+
 .footer {
   display: flex;
   width: min(1120px, calc(100% - 48px));
