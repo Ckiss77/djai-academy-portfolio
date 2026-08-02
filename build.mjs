@@ -23,7 +23,7 @@ for (const entry of [
 await writeFile(resolve(dist, "server/index.js"), `
 const SUPABASE_URL = env => env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = env => env.SUPABASE_ANON_KEY;
-const OKMD_API_URL = "https://gen.ai.kku.ac.th/okmd/api/v1/chat/completions";
+const OPENAI_API_URL = "https://api.openai.com/v1/responses";
 
 async function supabaseRpc(env, functionName, body) {
   const response = await fetch(\`\${SUPABASE_URL(env)}/rest/v1/rpc/\${functionName}\`, {
@@ -66,29 +66,27 @@ export default {
       }
     }
     if (url.pathname === "/api/ai/ask" && request.method === "POST") {
-      if (!env.OKMD_API_KEY) {
+      if (!env.OPENAI_API_KEY) {
         return new Response(JSON.stringify({ message: "AI Concierge is not configured yet" }), { status: 503, headers: { "Content-Type": "application/json" } });
       }
       try {
         const body = await request.json();
         const message = String(body.message || "").trim().slice(0, 500);
         if (!message) return new Response(JSON.stringify({ message: "A question is required" }), { status: 400, headers: { "Content-Type": "application/json" } });
-        const response = await fetch(OKMD_API_URL, {
+        const response = await fetch(OPENAI_API_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: "Bearer " + env.OKMD_API_KEY },
+          headers: { "Content-Type": "application/json", Authorization: "Bearer " + env.OPENAI_API_KEY },
           body: JSON.stringify({
-            model: "gemini-2.5-flash-lite",
-            messages: [
-              { role: "system", content: "You are DJAI AI Concierge for DJAI Academy. Answer clearly and professionally in the user's language. Use only this context: DJAI Academy provides AI training, executive workshops, digital transformation consulting, AI adoption, data intelligence, AI avatar communication, AI cinematic video production, and web application experiences. If asked about a specific portfolio item, explain its likely creative or business value without inventing private facts. Keep answers concise and useful." },
-              { role: "user", content: message },
-            ],
+            model: "gpt-4.1-mini",
+            instructions: "You are DJAI AI Concierge for DJAI Academy. Answer clearly and professionally in the user's language. Use only this context: DJAI Academy provides AI training, executive workshops, digital transformation consulting, AI adoption, data intelligence, AI avatar communication, AI cinematic video production, and web application experiences. If asked about a specific portfolio item, explain its likely creative or business value without inventing private facts. Keep answers concise and useful.",
+            input: message,
             temperature: 0.6,
-            max_tokens: 350,
+            max_output_tokens: 350,
           }),
         });
         const result = await response.json();
         if (!response.ok) return new Response(JSON.stringify({ message: "AI service request failed" }), { status: 502, headers: { "Content-Type": "application/json" } });
-        const answer = result.choices?.[0]?.message?.content || result.content?.[0]?.text || "I could not find an answer just yet.";
+        const answer = result.output_text || result.output?.flatMap((item) => item.content || []).find((item) => item.type === "output_text")?.text || "I could not find an answer just yet.";
         return new Response(JSON.stringify({ answer }), { headers: { "Content-Type": "application/json", "Cache-Control": "no-store" } });
       } catch (error) {
         return new Response(JSON.stringify({ message: "AI Concierge is temporarily unavailable" }), { status: 503, headers: { "Content-Type": "application/json" } });
