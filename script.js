@@ -240,7 +240,7 @@ if (certificateSection && certificateTrack && certificateSlides.length) {
   }
 
   function closeCertificateModal() {
-    window.history.replaceState(null, "", "#speaker");
+    window.location.hash = "speaker";
     syncCertificateModal();
   }
 
