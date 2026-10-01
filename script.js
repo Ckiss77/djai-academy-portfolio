@@ -208,8 +208,63 @@ let activeCertificateIndex = 0;
 let certificateScrollFrame = 0;
 
 if (certificateSection && certificateTrack && certificateSlides.length) {
+  // Hash-based opening remains available even if JavaScript cannot initialize.
+  document.body.append(certificateSection);
+  const certificateOpener = document.querySelector(".speaker-cert-btn");
+  const certificateClose = certificateSection.querySelector(".certificate-close");
+  const backgroundInertState = new Map();
+  let certificateModalOpen = false;
   const previousButton = certificateSection.querySelector("[data-certificate-prev]");
   const nextButton = certificateSection.querySelector("[data-certificate-next]");
+
+  function syncCertificateModal() {
+    const isOpen = window.location.hash === "#speaker-certificates";
+    if (isOpen === certificateModalOpen) return;
+    certificateModalOpen = isOpen;
+    document.body.classList.toggle("certificates-open", isOpen);
+    if (isOpen) {
+      Array.from(document.body.children).forEach((element) => {
+        if (element === certificateSection || element.tagName === "SCRIPT") return;
+        backgroundInertState.set(element, element.inert);
+        element.inert = true;
+      });
+      requestAnimationFrame(() => {
+        showCertificate(activeCertificateIndex, "auto");
+        certificateClose?.focus({ preventScroll: true });
+      });
+    } else {
+      backgroundInertState.forEach((wasInert, element) => { element.inert = wasInert; });
+      backgroundInertState.clear();
+      certificateOpener?.focus({ preventScroll: true });
+    }
+  }
+
+  function closeCertificateModal() {
+    window.history.replaceState(null, "", "#speaker");
+    syncCertificateModal();
+  }
+
+  window.addEventListener("hashchange", syncCertificateModal);
+  certificateSection.addEventListener("click", (event) => {
+    if (event.target === certificateSection) closeCertificateModal();
+  });
+  certificateSection.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeCertificateModal();
+    } else if (event.key === "Tab") {
+      const focusable = Array.from(certificateSection.querySelectorAll("a[href], button, [tabindex='0']"));
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    }
+  });
 
   function updateCertificateState(index) {
     activeCertificateIndex = index;
@@ -267,6 +322,7 @@ if (certificateSection && certificateTrack && certificateSlides.length) {
   });
 
   updateCertificateState(0);
+  syncCertificateModal();
 }
 
 const canvas = document.getElementById("signalCanvas");

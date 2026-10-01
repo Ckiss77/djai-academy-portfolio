@@ -76,7 +76,7 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261001-certificates2" />
+    <link rel="stylesheet" href="styles.css?v=20261001-certificates3" />
   </head>
   <body>
     <canvas class="signal-canvas" id="signalCanvas" aria-hidden="true"></canvas>
@@ -393,7 +393,7 @@
                   <span class="btn-icon">↓</span>
                   Download Full CV
                 </a>
-                <a class="btn btn-secondary speaker-cert-btn" href="#speaker-certificates">
+                <a class="btn btn-secondary speaker-cert-btn" href="#speaker-certificates" aria-haspopup="dialog" aria-controls="speaker-certificates">
                   <svg class="btn-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <circle cx="12" cy="8" r="5.25" stroke="currentColor" stroke-width="1.7" />
                     <path d="m8.4 11.9-.9 8 4.5-2.6 4.5 2.6-.9-8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" />
@@ -428,13 +428,18 @@
         </div>
       </section>
 
-      <section class="section speaker-certificates" id="speaker-certificates">
+      <section class="speaker-certificates" id="speaker-certificates" role="dialog" aria-modal="true" aria-labelledby="speakerCertificatesTitle" tabindex="-1">
         <div class="certificate-panel">
           <header class="certificate-modal-header">
             <div>
               <p class="eyebrow">Speaker Profile</p>
               <h2 id="speakerCertificatesTitle">Speaker Certificates</h2>
             </div>
+            <a class="certificate-nav-button certificate-close" href="#speaker" aria-label="Close certificates" title="Close certificates">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-linecap="round" stroke-width="1.8" />
+              </svg>
+            </a>
           </header>
           <div class="certificate-carousel" role="region" aria-label="Speaker certificates" aria-roledescription="carousel">
             <button class="certificate-nav-button" type="button" data-certificate-prev aria-label="Previous certificate" title="Previous certificate">
@@ -672,6 +677,6 @@
       <span>AI Adoption | Digital Transformation | Infinite Creation</span>
     </footer>
 
-    <script src="script.js?v=20261001-certificates2"></script>
+    <script src="script.js?v=20261001-certificates3"></script>
   </body>
 </html>

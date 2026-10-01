@@ -904,16 +904,35 @@ h1 {
 }
 
 .speaker-certificates {
-  scroll-margin-top: 100px;
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  place-items: center;
+  padding: 20px;
+  overflow-y: auto;
+  background: rgba(2, 7, 18, 0.84);
+  backdrop-filter: blur(8px);
+}
+
+.speaker-certificates:target {
+  display: grid;
+}
+
+body.certificates-open {
+  overflow: hidden;
 }
 
 .certificate-panel {
   display: grid;
   min-width: 0;
+  width: min(1040px, 100%);
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
   grid-template-rows: auto minmax(0, 1fr) auto;
   gap: 14px;
   border: 1px solid rgba(39, 230, 255, 0.38);
-  border-radius: 10px;
+  border-radius: 8px;
   background: linear-gradient(145deg, rgba(18, 31, 55, 0.96), rgba(7, 14, 32, 0.96));
   color: var(--text);
   padding: 22px;
@@ -985,7 +1004,7 @@ h1 {
   scroll-snap-type: x mandatory;
   scrollbar-color: rgba(39, 230, 255, 0.72) rgba(255, 255, 255, 0.08);
   scrollbar-width: thin;
-  touch-action: pan-x pinch-zoom;
+  touch-action: auto;
   overscroll-behavior-inline: contain;
 }
 
@@ -1017,10 +1036,9 @@ h1 {
   display: grid;
   min-height: 0;
   place-items: center;
-  padding: 10px;
-  border: 1px solid rgba(39, 230, 255, 0.22);
-  border-radius: 7px;
-  background: #f3f5f7;
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
 .certificate-image-frame img {
@@ -1860,10 +1878,6 @@ h1 {
   .certificate-nav-button {
     width: 36px;
     height: 40px;
-  }
-
-  .certificate-image-frame {
-    padding: 6px;
   }
 
   .certificate-image-frame img {
