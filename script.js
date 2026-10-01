@@ -285,7 +285,8 @@ if (certificateSection && certificateTrack && certificateSlides.length) {
   }
 
   function showCertificate(index, behavior = "smooth") {
-    const nextIndex = (index + certificateSlides.length) % certificateSlides.length;
+    const validIndex = Number.isInteger(index) ? index : 0;
+    const nextIndex = (validIndex + certificateSlides.length) % certificateSlides.length;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const nextSlide = certificateSlides[nextIndex];
     certificateTrack.scrollTo({
@@ -305,6 +306,7 @@ if (certificateSection && certificateTrack && certificateSlides.length) {
   certificateTrack.addEventListener("scroll", () => {
     if (certificateScrollFrame) cancelAnimationFrame(certificateScrollFrame);
     certificateScrollFrame = requestAnimationFrame(() => {
+      if (!certificateTrack.clientWidth) return;
       const index = Math.round(certificateTrack.scrollLeft / certificateTrack.clientWidth);
       const nextIndex = Math.max(0, Math.min(certificateSlides.length - 1, index));
       if (nextIndex !== activeCertificateIndex) updateCertificateState(nextIndex);
