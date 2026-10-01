@@ -199,6 +199,86 @@ if (cvDownloadButton) {
   });
 }
 
+const certificateDialog = document.getElementById("speakerCertificates");
+const certificateOpenButton = document.querySelector("[data-open-certificates]");
+const certificateTrack = document.querySelector("[data-certificate-track]");
+const certificateSlides = certificateTrack ? Array.from(certificateTrack.querySelectorAll(".certificate-slide")) : [];
+const certificateDots = Array.from(document.querySelectorAll("[data-certificate-index]"));
+const certificateCount = document.querySelector("[data-certificate-count]");
+let activeCertificateIndex = 0;
+let certificateScrollFrame = 0;
+
+if (certificateDialog && certificateOpenButton && certificateTrack && certificateSlides.length) {
+  const closeButton = certificateDialog.querySelector("[data-certificate-close]");
+  const previousButton = certificateDialog.querySelector("[data-certificate-prev]");
+  const nextButton = certificateDialog.querySelector("[data-certificate-next]");
+
+  function updateCertificateState(index) {
+    activeCertificateIndex = index;
+    certificateSlides.forEach((slide, slideIndex) => {
+      slide.setAttribute("aria-label", `${slideIndex + 1} of ${certificateSlides.length}`);
+    });
+    certificateDots.forEach((dot, dotIndex) => {
+      const isActive = dotIndex === activeCertificateIndex;
+      dot.classList.toggle("is-active", isActive);
+      if (isActive) dot.setAttribute("aria-current", "true");
+      else dot.removeAttribute("aria-current");
+    });
+    if (certificateCount) {
+      const current = String(activeCertificateIndex + 1).padStart(2, "0");
+      const total = String(certificateSlides.length).padStart(2, "0");
+      certificateCount.textContent = `${current} / ${total}`;
+    }
+  }
+
+  function showCertificate(index, behavior = "smooth") {
+    const nextIndex = (index + certificateSlides.length) % certificateSlides.length;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const nextSlide = certificateSlides[nextIndex];
+    certificateTrack.scrollTo({
+      left: nextSlide.getBoundingClientRect().left - certificateTrack.getBoundingClientRect().left + certificateTrack.scrollLeft,
+      behavior: reducedMotion ? "auto" : behavior,
+    });
+    updateCertificateState(nextIndex);
+  }
+
+  certificateOpenButton.addEventListener("click", () => {
+    certificateDialog.showModal();
+    requestAnimationFrame(() => showCertificate(activeCertificateIndex, "auto"));
+  });
+
+  closeButton?.addEventListener("click", () => certificateDialog.close());
+  previousButton?.addEventListener("click", () => showCertificate(activeCertificateIndex - 1));
+  nextButton?.addEventListener("click", () => showCertificate(activeCertificateIndex + 1));
+
+  certificateDots.forEach((dot) => {
+    dot.addEventListener("click", () => showCertificate(Number(dot.dataset.certificateIndex)));
+  });
+
+  certificateTrack.addEventListener("scroll", () => {
+    if (certificateScrollFrame) cancelAnimationFrame(certificateScrollFrame);
+    certificateScrollFrame = requestAnimationFrame(() => {
+      const index = Math.round(certificateTrack.scrollLeft / certificateTrack.clientWidth);
+      const nextIndex = Math.max(0, Math.min(certificateSlides.length - 1, index));
+      if (nextIndex !== activeCertificateIndex) updateCertificateState(nextIndex);
+    });
+  }, { passive: true });
+
+  certificateDialog.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      showCertificate(activeCertificateIndex - 1);
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      showCertificate(activeCertificateIndex + 1);
+    }
+  });
+
+  certificateDialog.addEventListener("click", (event) => {
+    if (event.target === certificateDialog) certificateDialog.close();
+  });
+}
+
 const canvas = document.getElementById("signalCanvas");
 const ctx = canvas.getContext("2d");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

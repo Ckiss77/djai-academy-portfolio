@@ -388,10 +388,20 @@
                 วิทยากร AI และที่ปรึกษา Digital Transformation สำหรับผู้บริหารและองค์กร: AI Strategy, AI Governance,
                 AI for Executives, Data Intelligence, AI Avatar และ AI Video Production.
               </p>
-              <a class="btn btn-primary speaker-cv-btn" href="#download-cv" data-cv-download>
-                <span class="btn-icon">↓</span>
-                Download Full CV
-              </a>
+              <div class="speaker-actions">
+                <a class="btn btn-primary speaker-cv-btn" href="#download-cv" data-cv-download>
+                  <span class="btn-icon">↓</span>
+                  Download Full CV
+                </a>
+                <button class="btn btn-secondary speaker-cert-btn" type="button" data-open-certificates aria-haspopup="dialog">
+                  <svg class="btn-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="8" r="5.25" stroke="currentColor" stroke-width="1.7" />
+                    <path d="m8.4 11.9-.9 8 4.5-2.6 4.5 2.6-.9-8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" />
+                    <path d="m10 8 1.3 1.3L14.5 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                  </svg>
+                  Speaker Certificate
+                </button>
+              </div>
             </div>
             <div class="credential-grid">
               <div>
@@ -588,6 +598,76 @@
         </div>
       </section>
     </main>
+
+    <dialog class="certificate-dialog" id="speakerCertificates" aria-labelledby="speakerCertificatesTitle">
+      <div class="certificate-modal-shell">
+        <header class="certificate-modal-header">
+          <div>
+            <p class="eyebrow">Speaker Profile</p>
+            <h2 id="speakerCertificatesTitle">Speaker Certificates</h2>
+          </div>
+          <button class="certificate-close" type="button" data-certificate-close aria-label="Close certificates" title="Close certificates">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-linecap="round" stroke-width="1.8" />
+            </svg>
+          </button>
+        </header>
+        <div class="certificate-carousel" role="region" aria-label="Speaker certificates" aria-roledescription="carousel">
+          <button class="certificate-nav-button" type="button" data-certificate-prev aria-label="Previous certificate" title="Previous certificate">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m14.5 5-7 7 7 7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" />
+            </svg>
+          </button>
+          <div class="certificate-track" data-certificate-track tabindex="0" aria-label="Certificate slides">
+            <article class="certificate-slide" role="group" aria-roledescription="slide" aria-label="1 of 5">
+              <div class="certificate-image-frame">
+                <img src="assets/speaker-certificates/ai-vdo.jpg" alt="AI+ VDO certificate" width="2067" height="1477" />
+              </div>
+              <h3>AI+ VDO</h3>
+            </article>
+            <article class="certificate-slide" role="group" aria-roledescription="slide" aria-label="2 of 5">
+              <div class="certificate-image-frame">
+                <img src="assets/speaker-certificates/ai-vdo-practitioner.jpg" alt="AI+ VDO Practitioner certificate" width="2067" height="1477" loading="lazy" />
+              </div>
+              <h3>AI+ VDO Practitioner</h3>
+            </article>
+            <article class="certificate-slide" role="group" aria-roledescription="slide" aria-label="3 of 5">
+              <div class="certificate-image-frame">
+                <img src="assets/speaker-certificates/ai-executive-foundation.jpg" alt="AI for Executive Foundation certificate" width="2067" height="1477" loading="lazy" />
+              </div>
+              <h3>AI for Executive Foundation</h3>
+            </article>
+            <article class="certificate-slide" role="group" aria-roledescription="slide" aria-label="4 of 5">
+              <div class="certificate-image-frame">
+                <img src="assets/speaker-certificates/ai-for-executive.jpg" alt="AI for Executive certificate" width="2067" height="1477" loading="lazy" />
+              </div>
+              <h3>AI for Executive</h3>
+            </article>
+            <article class="certificate-slide" role="group" aria-roledescription="slide" aria-label="5 of 5">
+              <div class="certificate-image-frame">
+                <img src="assets/speaker-certificates/certified-trainer-aict.jpg" alt="Certified Trainer (AICT) certificate" width="2067" height="1477" loading="lazy" />
+              </div>
+              <h3>Certified Trainer (AICT)</h3>
+            </article>
+          </div>
+          <button class="certificate-nav-button" type="button" data-certificate-next aria-label="Next certificate" title="Next certificate">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m9.5 5 7 7-7 7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" />
+            </svg>
+          </button>
+        </div>
+        <footer class="certificate-modal-footer">
+          <span class="certificate-count" data-certificate-count aria-live="polite">01 / 05</span>
+          <div class="certificate-dots" data-certificate-dots role="group" aria-label="Choose certificate">
+            <button class="certificate-dot is-active" type="button" data-certificate-index="0" aria-label="Show certificate 1" aria-current="true"></button>
+            <button class="certificate-dot" type="button" data-certificate-index="1" aria-label="Show certificate 2"></button>
+            <button class="certificate-dot" type="button" data-certificate-index="2" aria-label="Show certificate 3"></button>
+            <button class="certificate-dot" type="button" data-certificate-index="3" aria-label="Show certificate 4"></button>
+            <button class="certificate-dot" type="button" data-certificate-index="4" aria-label="Show certificate 5"></button>
+          </div>
+        </footer>
+      </div>
+    </dialog>
 
     <footer class="footer">
       <div class="footer-brand">

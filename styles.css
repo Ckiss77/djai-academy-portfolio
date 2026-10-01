@@ -872,8 +872,247 @@ h1 {
 }
 
 .speaker-cv-btn {
-  margin-top: 22px;
   width: fit-content;
+}
+
+.speaker-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.speaker-cert-btn {
+  min-height: 50px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.speaker-cert-btn .btn-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.speaker-cert-btn:focus-visible,
+.certificate-close:focus-visible,
+.certificate-nav-button:focus-visible,
+.certificate-dot:focus-visible,
+.certificate-track:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.certificate-dialog {
+  width: min(980px, calc(100% - 28px));
+  height: min(760px, calc(100dvh - 24px));
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(39, 230, 255, 0.38);
+  border-radius: 10px;
+  background: #081226;
+  color: var(--text);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.62), 0 0 36px rgba(39, 230, 255, 0.12);
+}
+
+.certificate-dialog::backdrop {
+  background: rgba(2, 5, 14, 0.84);
+  backdrop-filter: blur(8px);
+}
+
+.certificate-modal-shell {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.certificate-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px 12px;
+}
+
+.certificate-modal-header .eyebrow {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+}
+
+.certificate-modal-header h2 {
+  margin: 0;
+  font-family: "Sora", "Noto Sans Thai", sans-serif;
+  font-size: 1.45rem;
+  line-height: 1.3;
+}
+
+.certificate-close {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 180ms ease, border-color 180ms ease;
+}
+
+.certificate-close:hover {
+  border-color: rgba(39, 230, 255, 0.55);
+  background: rgba(39, 230, 255, 0.1);
+}
+
+.certificate-close svg,
+.certificate-nav-button svg {
+  width: 22px;
+  height: 22px;
+}
+
+.certificate-carousel {
+  display: grid;
+  min-height: 0;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px 12px;
+}
+
+.certificate-nav-button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid rgba(39, 230, 255, 0.34);
+  border-radius: 7px;
+  background: rgba(39, 230, 255, 0.08);
+  color: var(--cyan);
+  cursor: pointer;
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.certificate-nav-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(39, 230, 255, 0.68);
+  background: rgba(39, 230, 255, 0.16);
+}
+
+.certificate-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  touch-action: pan-x pinch-zoom;
+}
+
+.certificate-track::-webkit-scrollbar {
+  display: none;
+}
+
+.certificate-slide {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  flex: 0 0 100%;
+  align-content: center;
+  gap: 10px;
+  scroll-snap-align: center;
+}
+
+.certificate-image-frame {
+  display: grid;
+  min-height: 0;
+  place-items: center;
+  padding: 10px;
+  border: 1px solid rgba(39, 230, 255, 0.22);
+  border-radius: 7px;
+  background: #f3f5f7;
+}
+
+.certificate-image-frame img {
+  display: block;
+  width: 100%;
+  max-height: calc(100dvh - 220px);
+  object-fit: contain;
+  object-position: center;
+}
+
+.certificate-slide h3 {
+  margin: 0;
+  color: var(--text);
+  font-family: "Sora", "Noto Sans Thai", sans-serif;
+  font-size: 1rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.certificate-modal-footer {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border-top: 1px solid var(--line);
+  padding: 8px 18px;
+}
+
+.certificate-count {
+  min-width: 66px;
+  color: var(--cyan);
+  font-family: "Sora", sans-serif;
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.certificate-dots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.certificate-dot {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.certificate-dot::before {
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  content: "";
+  transition: width 180ms ease, height 180ms ease, background 180ms ease;
+}
+
+.certificate-dot.is-active::before {
+  width: 10px;
+  height: 10px;
+  border-color: var(--cyan);
+  background: var(--cyan);
+  box-shadow: 0 0 12px rgba(39, 230, 255, 0.5);
 }
 
 .speaker-cv-btn.is-loading {
@@ -1605,6 +1844,69 @@ h1 {
 
   .speaker-card {
     padding: 18px;
+  }
+
+  .speaker-actions {
+    gap: 9px;
+  }
+
+  .speaker-actions .btn {
+    min-height: 46px;
+    padding: 11px 12px;
+    font-size: 0.84rem;
+  }
+
+  .certificate-dialog {
+    width: calc(100% - 14px);
+    height: calc(100dvh - 14px);
+    border-radius: 8px;
+  }
+
+  .certificate-modal-header {
+    padding: 14px 14px 10px;
+  }
+
+  .certificate-modal-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .certificate-carousel {
+    grid-template-columns: 36px minmax(0, 1fr) 36px;
+    gap: 5px;
+    padding: 0 8px 8px;
+  }
+
+  .certificate-nav-button {
+    width: 36px;
+    height: 40px;
+  }
+
+  .certificate-image-frame {
+    padding: 6px;
+  }
+
+  .certificate-image-frame img {
+    max-height: calc(100dvh - 210px);
+  }
+
+  .certificate-modal-footer {
+    min-height: 50px;
+    gap: 8px;
+    padding: 6px 8px;
+  }
+
+  .certificate-count {
+    min-width: 54px;
+    font-size: 0.78rem;
+  }
+
+  .certificate-dots {
+    gap: 0;
+  }
+
+  .certificate-dot {
+    width: 26px;
+    height: 30px;
   }
 
   .speaker-portrait,
