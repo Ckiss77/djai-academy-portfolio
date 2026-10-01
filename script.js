@@ -107,7 +107,7 @@ function updateFooterVisitorCount() {
     .catch(() => { counter.textContent = "—"; });
 }
 
-trackWebsiteVisit().finally(updateFooterVisitorCount);
+Promise.resolve().then(trackWebsiteVisit).catch(() => {}).finally(updateFooterVisitorCount);
 
 // Keep the Training gallery in the same layout container as the portfolio tabs.
 const trainingPanel = document.querySelector("#training");
@@ -199,8 +199,7 @@ if (cvDownloadButton) {
   });
 }
 
-const certificateDialog = document.getElementById("speakerCertificates");
-const certificateOpenButton = document.querySelector("[data-open-certificates]");
+const certificateSection = document.getElementById("speaker-certificates");
 const certificateTrack = document.querySelector("[data-certificate-track]");
 const certificateSlides = certificateTrack ? Array.from(certificateTrack.querySelectorAll(".certificate-slide")) : [];
 const certificateDots = Array.from(document.querySelectorAll("[data-certificate-index]"));
@@ -208,10 +207,9 @@ const certificateCount = document.querySelector("[data-certificate-count]");
 let activeCertificateIndex = 0;
 let certificateScrollFrame = 0;
 
-if (certificateDialog && certificateOpenButton && certificateTrack && certificateSlides.length) {
-  const closeButton = certificateDialog.querySelector("[data-certificate-close]");
-  const previousButton = certificateDialog.querySelector("[data-certificate-prev]");
-  const nextButton = certificateDialog.querySelector("[data-certificate-next]");
+if (certificateSection && certificateTrack && certificateSlides.length) {
+  const previousButton = certificateSection.querySelector("[data-certificate-prev]");
+  const nextButton = certificateSection.querySelector("[data-certificate-next]");
 
   function updateCertificateState(index) {
     activeCertificateIndex = index;
@@ -242,12 +240,6 @@ if (certificateDialog && certificateOpenButton && certificateTrack && certificat
     updateCertificateState(nextIndex);
   }
 
-  certificateOpenButton.addEventListener("click", () => {
-    certificateDialog.showModal();
-    requestAnimationFrame(() => showCertificate(activeCertificateIndex, "auto"));
-  });
-
-  closeButton?.addEventListener("click", () => certificateDialog.close());
   previousButton?.addEventListener("click", () => showCertificate(activeCertificateIndex - 1));
   nextButton?.addEventListener("click", () => showCertificate(activeCertificateIndex + 1));
 
@@ -264,7 +256,7 @@ if (certificateDialog && certificateOpenButton && certificateTrack && certificat
     });
   }, { passive: true });
 
-  certificateDialog.addEventListener("keydown", (event) => {
+  certificateTrack.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") {
       event.preventDefault();
       showCertificate(activeCertificateIndex - 1);
@@ -274,9 +266,7 @@ if (certificateDialog && certificateOpenButton && certificateTrack && certificat
     }
   });
 
-  certificateDialog.addEventListener("click", (event) => {
-    if (event.target === certificateDialog) certificateDialog.close();
-  });
+  updateCertificateState(0);
 }
 
 const canvas = document.getElementById("signalCanvas");
