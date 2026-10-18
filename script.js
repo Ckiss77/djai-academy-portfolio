@@ -161,12 +161,9 @@ const cvDownloadButton = document.querySelector("[data-cv-download]");
 
 if (cvDownloadButton) {
   cvDownloadButton.addEventListener("click", async (event) => {
-    event.preventDefault();
+    if (usesStaticPages) return;
 
-    if (usesStaticPages) {
-      window.alert("Full CV download is currently unavailable. Please email chatchai@djai.academy to request a copy.");
-      return;
-    }
+    event.preventDefault();
 
     const passcode = window.prompt("Enter passcode to download Full CV");
 

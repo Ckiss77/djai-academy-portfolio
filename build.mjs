@@ -20,6 +20,11 @@ for (const entry of [
   await cp(resolve(root, entry), resolve(client, entry), { recursive: true });
 }
 
+await cp(
+  resolve(root, "netlify/functions/private/chatchai-suthapakti-full-cv.pdf"),
+  resolve(client, "assets/chatchai-suthapakti-full-cv.pdf"),
+);
+
 await writeFile(resolve(dist, "server/index.js"), `
 const SUPABASE_URL = env => env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = env => env.SUPABASE_ANON_KEY;
