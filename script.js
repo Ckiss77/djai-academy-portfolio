@@ -76,6 +76,7 @@ function analyticsReferrerDomain() {
 }
 
 const analyticsEndpoint = "/api/analytics/track";
+const usesStaticPages = window.location.hostname === "djai.dc365.online" || window.location.hostname.endsWith(".github.io");
 
 function trackWebsiteVisit() {
   if (document.body.classList.contains("portal-body") || navigator.doNotTrack === "1") return Promise.resolve();
@@ -107,7 +108,11 @@ function updateFooterVisitorCount() {
     .catch(() => { counter.textContent = "—"; });
 }
 
-Promise.resolve().then(trackWebsiteVisit).catch(() => {}).finally(updateFooterVisitorCount);
+if (usesStaticPages) {
+  document.getElementById("footerVisitorCount")?.remove();
+} else {
+  Promise.resolve().then(trackWebsiteVisit).catch(() => {}).finally(updateFooterVisitorCount);
+}
 
 // Keep the Training gallery in the same layout container as the portfolio tabs.
 const trainingPanel = document.querySelector("#training");
@@ -157,6 +162,11 @@ const cvDownloadButton = document.querySelector("[data-cv-download]");
 if (cvDownloadButton) {
   cvDownloadButton.addEventListener("click", async (event) => {
     event.preventDefault();
+
+    if (usesStaticPages) {
+      window.alert("Full CV download is currently unavailable. Please email chatchai@djai.academy to request a copy.");
+      return;
+    }
 
     const passcode = window.prompt("Enter passcode to download Full CV");
 
