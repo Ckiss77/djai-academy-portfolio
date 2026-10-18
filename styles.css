@@ -923,7 +923,15 @@ body.certificates-open {
   overflow: hidden;
 }
 
+.certificate-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
 .certificate-panel {
+  position: relative;
+  z-index: 1;
   display: grid;
   min-width: 0;
   width: min(1040px, 100%);
@@ -1000,7 +1008,6 @@ body.certificates-open {
   min-height: 0;
   overflow-x: auto;
   overflow-y: hidden;
-  scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   scrollbar-color: rgba(39, 230, 255, 0.72) rgba(255, 255, 255, 0.08);
   scrollbar-width: thin;

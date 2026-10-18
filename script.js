@@ -212,6 +212,7 @@ if (certificateSection && certificateTrack && certificateSlides.length) {
   document.body.append(certificateSection);
   const certificateOpener = document.querySelector(".speaker-cert-btn");
   const certificateClose = certificateSection.querySelector(".certificate-close");
+  const certificatePanel = certificateSection.querySelector(".certificate-panel");
   const backgroundInertState = new Map();
   let certificateModalOpen = false;
   const previousButton = certificateSection.querySelector("[data-certificate-prev]");
@@ -229,7 +230,8 @@ if (certificateSection && certificateTrack && certificateSlides.length) {
         element.inert = true;
       });
       requestAnimationFrame(() => {
-        showCertificate(activeCertificateIndex, "auto");
+        if (!certificateModalOpen) return;
+        showCertificate(0, "auto");
         certificateClose?.focus({ preventScroll: true });
       });
     } else {
@@ -246,14 +248,14 @@ if (certificateSection && certificateTrack && certificateSlides.length) {
 
   window.addEventListener("hashchange", syncCertificateModal);
   certificateSection.addEventListener("click", (event) => {
-    if (event.target === certificateSection) closeCertificateModal();
+    if (certificatePanel && !certificatePanel.contains(event.target)) closeCertificateModal();
   });
   certificateSection.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       event.preventDefault();
       closeCertificateModal();
     } else if (event.key === "Tab") {
-      const focusable = Array.from(certificateSection.querySelectorAll("a[href], button, [tabindex='0']"));
+      const focusable = Array.from(certificateSection.querySelectorAll("a[href]:not([tabindex='-1']), button, [tabindex='0']"));
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
       if (event.shiftKey && document.activeElement === first) {
