@@ -161,13 +161,26 @@ const cvDownloadButton = document.querySelector("[data-cv-download]");
 
 if (cvDownloadButton) {
   cvDownloadButton.addEventListener("click", async (event) => {
-    if (usesStaticPages) return;
-
     event.preventDefault();
 
     const passcode = window.prompt("Enter passcode to download Full CV");
 
     if (!passcode) return;
+
+    if (usesStaticPages) {
+      if (passcode.trim() !== "8396") {
+        window.alert("Passcode is incorrect.");
+        return;
+      }
+
+      const link = document.createElement("a");
+      link.href = cvDownloadButton.href;
+      link.download = cvDownloadButton.download || "Chatchai-Suthapakti-Full-CV.pdf";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      return;
+    }
 
     cvDownloadButton.classList.add("is-loading");
     cvDownloadButton.setAttribute("aria-busy", "true");
