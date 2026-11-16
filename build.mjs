@@ -1,5 +1,6 @@
 import { cp, mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { build } from "esbuild";
 
 const root = resolve(import.meta.dirname);
 const dist = resolve(root, "dist");
@@ -24,6 +25,16 @@ await cp(
   resolve(root, "netlify/functions/private/chatchai-suthapakti-full-cv.pdf"),
   resolve(client, "assets/chatchai-suthapakti-full-cv.pdf"),
 );
+
+await build({
+  entryPoints: [resolve(root, "particle-stage.js")],
+  bundle: true,
+  format: "iife",
+  target: "es2022",
+  minify: true,
+  legalComments: "eof",
+  outfile: resolve(client, "particle-stage.js"),
+});
 
 await writeFile(resolve(dist, "server/index.js"), `
 const SUPABASE_URL = env => env.SUPABASE_URL;

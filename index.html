@@ -147,6 +147,37 @@
         </div>
       </section>
 
+      <section class="particle-story" id="particleStory" aria-labelledby="particleStoryTitle">
+        <div class="particle-story__stage" id="particleStoryStage">
+          <canvas class="particle-story__canvas" id="particleCanvas" aria-hidden="true"></canvas>
+          <div class="particle-story__fallback" id="particleFallback" aria-hidden="true">
+            <img src="assets/djai-circle.png" alt="" />
+          </div>
+          <div class="particle-story__vignette" aria-hidden="true"></div>
+          <div class="particle-story__inner">
+            <div class="particle-story__copy">
+              <p class="eyebrow">DJAI Digital Experience</p>
+              <h2 id="particleStoryTitle">Ideas move.<br /><span>Worlds connect.</span></h2>
+              <p class="particle-story__intro">A living view of the ideas, tools, and connections shaping tomorrow's digital experiences.</p>
+              <div class="particle-story__chapter" aria-live="off">
+                <span class="particle-story__chapter-count" id="particleChapterCount">01 / 04</span>
+                <span class="particle-story__chapter-name" id="particleChapterName">Signal</span>
+                <span class="particle-story__chapter-note" id="particleChapterNote">A clear point of connection.</span>
+              </div>
+              <div class="particle-story__controls" id="particleControls" role="group" aria-label="Particle formations">
+                <button type="button" data-particle-step="0" aria-label="Show QR formation" aria-pressed="true">QR</button>
+                <button type="button" data-particle-step="1" aria-label="Show energy ring formation" aria-pressed="false">Energy</button>
+                <button type="button" data-particle-step="2" aria-label="Show globe formation" aria-pressed="false">Globe</button>
+                <button type="button" data-particle-step="3" aria-label="Show DJAI logo formation" aria-pressed="false">DJAI</button>
+              </div>
+              <div class="particle-story__progress" aria-hidden="true"><span id="particleProgressFill"></span></div>
+              <a class="particle-story__cta" href="#portfolio">Explore the portfolio <span aria-hidden="true">↗</span></a>
+            </div>
+            <span class="particle-story__signature" aria-hidden="true">THE BEGINNING OF INFINITE CREATION</span>
+          </div>
+        </div>
+      </section>
+
       <section class="section expertise" id="expertise">
         <div class="section-heading" data-reveal>
           <p class="eyebrow">Core Expertise</p>
@@ -733,6 +764,7 @@
       <span>AI Adoption | Digital Transformation | Infinite Creation</span>
     </footer>
 
+    <script src="particle-stage.js" defer></script>
     <script src="script.js?v=20261019-cv-passcode1"></script>
   </body>
 </html>
