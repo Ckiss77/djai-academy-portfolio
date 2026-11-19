@@ -990,6 +990,12 @@ h1 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.digital-products-panel > .product-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: calc(50% - 7px);
+}
+
 .portfolio-panel[hidden] {
   display: none;
 }
@@ -2258,6 +2264,10 @@ body.certificates-open {
   .speaker-gallery-grid,
   .timeline-track {
     grid-template-columns: 1fr;
+  }
+
+  .digital-products-panel > .product-card:last-child:nth-child(odd) {
+    width: 100%;
   }
 
   .section {
